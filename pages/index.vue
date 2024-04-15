@@ -1,26 +1,24 @@
 <template>
-    <div class="main__page">
-        <UnauthorizedHeader />
-        <div class="container mx-auto p-4">
-                <h2 class="main__page-title font-bold text-2xl py-10">Помощник администрации HASSLE ONLINE</h2>
-                <div>
-                    <div>
-                        <ul>
+    <UnauthorizedHeader/>
+    <div class="page__content bg-cover bg-no-repeat min-h-[93.5vh] flex align-middle" >
+        <div class="container mx-auto p-4 flex flex-col justify-center items-center text-center text-white">
+            <h2 class="font-bold text-2xl pb-10">Помощник администрации HASSLE ONLINE</h2>
+            <div>
+                <ul class="pb-4">
+                    <li>
+                        <h3 class="font-bold text-xl p-4">Как пользоваться помощником:</h3>
+                        <ul class="text-lg">
                             <li>
-                                <h3>Как пользоваться помощником:</h3>
-                                <ul>
-                                    <li>
-                                        Войдите в личный кабинет администратора
-                                    </li>
-                                    <li>
-                                        Получите мгновенный доступ ко всем возможностям
-                                    </li>
-                                </ul>
+                                Войдите в личный кабинет администратора
+                            </li>
+                            <li>
+                                Получите мгновенный доступ ко всем возможностям
                             </li>
                         </ul>
-                    </div>
-                    <UButton to="/authorization" class="text-black">Войти</UButton>
-                </div>
+                    </li>
+                </ul>
+                <UIAuthButton class="bg-cyan-400 hover:bg-cyan-600 p-2" />
+            </div>
         </div>
     </div>
 </template>
@@ -32,10 +30,7 @@ definePageMeta({
 </script>
 
 <style lang="scss" scoped>
-.main__page{
-    background-image: url('../public/bg__man.jpeg') ;
-    background-size:cover;
-    background-repeat: no-repeat;
-    min-height: 100vh;
+.page__content{
+    background-image: url('../public/bg.png') ;
 }
 </style>
