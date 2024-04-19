@@ -1,19 +1,11 @@
 <template>
     <div>
-        <AuthorizedHeader v-if="mainStore.isUserAuthorized"/>
-        <UnauthorizedHeader v-else/>
-        <div>
-            <slot />
-        </div>
+        <AppHeader />
+        <BackgroundImage>
+        <slot/>
         <footer>
-            
+        
         </footer>
+        </BackgroundImage>
     </div>
 </template>
-
-<script setup>
-const mainStore = useMainAdminStore()
-</script>
-
-<style lang="scss" scoped>
-</style>

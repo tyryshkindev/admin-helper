@@ -1,0 +1,33 @@
+{
+  "players": [
+    {
+      "id": "1723454",
+      "nickname": "Valeriy_Tyryshkin",
+      "password": "javascriptizer777",
+      "lvl": "77",
+      "adminLvl": "4",
+      "alist": []
+    },
+    {
+      "id": "1723477",
+      "nickname": "James_Davidson",
+      "password": "admin222",
+      "lvl": "66",
+      "adminLvl": "0",
+      "alist": [
+        {
+          "type": "rmute",
+          "time": "1713195868827",
+          "adminNick": "Valeriy_Tyryshkin",
+          "reason": "Оскорбление администрации"
+        },
+        {
+          "type": "jail",
+          "time": "1713195680421",
+          "adminNick": "Valeriy_Tyryshkin",
+          "reason": "Езда по полям"
+        }
+      ]
+    }
+  ]
+}

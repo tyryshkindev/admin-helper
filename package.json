@@ -12,6 +12,7 @@
   "dependencies": {
     "@nuxt/ui": "^2.15.1",
     "@pinia/nuxt": "^0.5.1",
+    "json-server": "^1.0.0-alpha.23",
     "nuxt": "^3.11.2",
     "pinia": "^2.1.7",
     "sass": "^1.74.1",
