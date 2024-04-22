@@ -48,17 +48,5 @@ async function handleAuthorize() {
     } else {
         toggleWrongAuthData(true)
     }
-    // if (nickName.value.length >= 4 && password.value.length >= 6) {
-    //     const userInfo = await authorizeUser({nickname: nickName.value, password: password.value})
-    //     if (userInfo.length && Object.keys(userInfo[0]).length) {
-    //         setNickName('')
-    //         setPassword('')
-    //         emit('authorization', userInfo[0])
-    //     } else {
-    //         toggleWrongAuthData(true)
-    //     }
-    // } else {
-    //     toggleWrongAuthData(true)
-    // }
 }
 </script>
