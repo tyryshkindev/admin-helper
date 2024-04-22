@@ -1,4 +1,4 @@
-export const authorizeUser = async (user) => {
+export const authorizeUserOnServer = async (user) => {
     try {
         const response = await fetch(`http://localhost:4000/players?nickname=${user.nickname}&password=${user.password}&adminLvl_ne=0`)
         if (!response.ok) {

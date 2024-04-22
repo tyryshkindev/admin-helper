@@ -16,7 +16,7 @@
                             </ul>
                         </li>
                     </ul>
-                    <AuthButton class="bg-cyan-400 hover:bg-cyan-600 p-2" />
+                    <AuthorizationButton class="bg-cyan-400 hover:bg-cyan-600 p-2" />
                 </div>
             </div>
         </div>

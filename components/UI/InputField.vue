@@ -1,10 +1,10 @@
 <template>
     <input 
-        :type="props.type || 'text'"
+        :type="props.type"
         class="mt-3 w-full border border-solid border-teal-700 py-3 px-4 rounded"
         @input="handleInput"
         :value="props.inputValue"
-        :placeholder="props.placeholder || ''"
+        :placeholder="props.placeholder"
     >
 </template>
 
@@ -16,13 +16,17 @@ const props = defineProps({
     },
     type: {
         type: String,
+        default: 'text'
     },
     placeholder: {
-        type: String
+        type: String,
+        default: ''
     }
-});
+})
 
-const emit = defineEmits(['update:inputValue']);
+const emit = defineEmits({
+    'update:inputValue': null
+})
 
 function handleInput(event) {
     emit('update:inputValue', event.target.value);
