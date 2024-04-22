@@ -4,7 +4,7 @@ export const useMainAdminStore = defineStore('mainAdminStore', () => {
         Object.assign(user, newData)
     }
     const isUserAuthorized = computed(() => {
-        return Object.keys(user).length 
+        return !!Object.keys(user).length 
     });
     
    
