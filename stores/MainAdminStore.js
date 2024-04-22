@@ -6,7 +6,7 @@ export const useMainAdminStore = defineStore('mainAdminStore', () => {
         "lvl": "77",
         "adminLvl": "4",
         "alist": []
-      },)
+      })
     function writeUser(newData) {
         Object.assign(user, newData)
     }
