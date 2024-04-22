@@ -2,16 +2,10 @@
     <header class="max-h-[6.5vh] bg-black">
         <nav class="container mx-auto p-3 flex justify-between">
             <NuxtLink to="/">
-                <img 
-                src="../public/hassle__logo.svg" 
-                alt="Hassle Logotype"
-                >
+                <img src="../public/hassle__logo.svg" alt="Hassle Logotype">
             </NuxtLink>
-            <div v-if="mainStore.isUserAuthorized">
-                <UHorizontalNavigation 
-                    class="bg-gray-200 rounded-md" 
-                    :links="links" 
-                />
+            <div v-if="mainStore.isUserAuthorized" class="flex flex-wrap bg-gray-200 rounded-md p-1.5">
+                <HeaderNavLinks :links="links"/>
             </div>
             <slot v-else>
                 <div class="flex">
@@ -23,6 +17,7 @@
 </template>
 <script setup>
 const mainStore = useMainAdminStore()
+
 const links = [{
     label: 'Профиль',
     icon: 'i-heroicons-home',
