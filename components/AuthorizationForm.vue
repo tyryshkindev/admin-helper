@@ -22,7 +22,6 @@
 </template>
 
 <script setup>
-import {authorizeUser} from '@/api/authorization'
 const emit = defineEmits({
     authorization: null
 })
@@ -41,17 +40,25 @@ function toggleWrongAuthData(newValue = false) {
     isAuthDataWrong.value = newValue
 }
 async function handleAuthorize() {
-    if (nickName.value.length >= 4 && password.value.length >= 6) {
-        const userInfo = await authorizeUser({nickname: nickName.value, password: password.value})
-        if (Object.keys(userInfo[0]).length) {
-            setNickName('')
-            setPassword('')
-            emit('authorization', userInfo[0])
-        } else {
-            toggleWrongAuthData(true)
-        }
+    const newUserInfo = await authorizeUser({nickname: nickName.value, password: password.value})
+    if (newUserInfo) {
+        setNickName('')
+        setPassword('')
+        emit('authorization', newUserInfo)
     } else {
         toggleWrongAuthData(true)
     }
+    // if (nickName.value.length >= 4 && password.value.length >= 6) {
+    //     const userInfo = await authorizeUser({nickname: nickName.value, password: password.value})
+    //     if (userInfo.length && Object.keys(userInfo[0]).length) {
+    //         setNickName('')
+    //         setPassword('')
+    //         emit('authorization', userInfo[0])
+    //     } else {
+    //         toggleWrongAuthData(true)
+    //     }
+    // } else {
+    //     toggleWrongAuthData(true)
+    // }
 }
 </script>
