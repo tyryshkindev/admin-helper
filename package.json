@@ -12,7 +12,6 @@
   "dependencies": {
     "@nuxtjs/tailwindcss": "^6.12.0",
     "@pinia/nuxt": "^0.5.1",
-    "json-server": "^1.0.0-alpha.23",
     "nuxt": "^3.11.2",
     "nuxt-icon": "^0.6.10",
     "pinia": "^2.1.7",
