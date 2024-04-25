@@ -22,6 +22,7 @@
 </template>
 
 <script setup>
+import {authenticateUser} from '@/utils/authenticateUser'
 const emit = defineEmits({
     authorization: null
 })
@@ -40,7 +41,7 @@ function toggleWrongAuthData(newValue = false) {
     isAuthDataWrong.value = newValue
 }
 async function handleAuthorize() {
-    const newUserInfo = await authorizeUser({nickname: nickName.value, password: password.value})
+    const newUserInfo = await authenticateUser({nickname: nickName.value, password: password.value})
     if (newUserInfo) {
         setNickName('')
         setPassword('')
