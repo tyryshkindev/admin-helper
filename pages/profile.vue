@@ -9,7 +9,7 @@
 </template>
 
 <script setup>
-import { getServerInfo } from '@/api/getServerInfo'
+import { getServerInfo } from '@/utils/getServerInfo'
 const mainStore = useMainAdminStore()
 const todayRateInfo = mainStore.user.rate[mainStore.user.rate.length - 1]
 const serverInfo = await getServerInfo(mainStore.user)

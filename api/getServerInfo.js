@@ -1,4 +1,5 @@
-import { checkUserAuthorization } from "@/utils/checkUserAuthorization"
+import { authenticateUser as validateUserAuthorization } from "@/utils/authenticateUser";
+import { alertClient } from "@/utils/alertClient";
 
 export const getServerInfo = async (userInfoToAuthorize) => {
     try {
@@ -18,6 +19,6 @@ export const getServerInfo = async (userInfoToAuthorize) => {
         const errorMessage = error.message === 'Неверные данные авторизации' ?
             error.message :
             'Ошибка при получении информации о сервере. Попробуйте позже'
-        useAlert(errorMessage)
+        alertClient(errorMessage)
     }
 };
