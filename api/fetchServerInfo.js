@@ -6,7 +6,8 @@ export const fetchServerInfo = async (server) => {
         })
         return serverInfoResponse.length ? serverInfoResponse[0] : null
     } catch (error) {
-        alertClient(error.message)
+        console.error(error.message)
+        alertClient('Возникла ошибка при получении данных о сервере. Попробуйте позже')
     }
     
 }

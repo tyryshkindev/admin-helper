@@ -1,11 +1,14 @@
+import { alertClient } from "@/utils/alertClient"
 export const authorizeUser = async (userInfo) => {
     try {
         const authorizationResponse = await $fetch('http://localhost:4000/admins', {
             query: {nickname: userInfo.nickname, password: userInfo.password, adminLvL_ne: 0}
         })
-        return authorizationResponse.length ? authorizationResponse[0] : null
+        return authorizationResponse
     } catch (error) {
-        alertClient(error.message)
+        console.error(error.message)
+        alertClient('Возникла ошибка при авторизации. Попробуйте позже')
+        return 404
     }
     
 }
