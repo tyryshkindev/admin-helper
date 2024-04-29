@@ -15,7 +15,6 @@
             :placeholder="'Пароль'" 
             />
             <ErrorMessage v-show="isAuthDataWrong" :message="wrongDataMessage" />
-            <!-- <p v-show="isAuthDataWrong" class="text-red-700 "></p> -->
             <footer class="text-right mt-4">
                 <AuthorizationButton @click="handleAuthorize" class="bg-cyan-400 hover:bg-cyan-600 p-2" />
             </footer>
@@ -29,26 +28,30 @@ const emit = defineEmits({
     authorization: null
 })
 const nickName = ref('')
-function setNickName(newValue) {
-    nickName.value = newValue
-    toggleWrongAuthData()
-}
 const password = ref('')
-function setPassword(newValue) {
-    password.value = newValue
+const wrongDataMessage = ref('')
+const isAuthDataWrong = ref(false)
+const isAuthorizationInProgress = ref(false)
+
+function changeVariableValue(target, newValue) {
+    target.value = newValue
+}
+function setNickName(newValue) {
+    changeVariableValue(nickName, newValue)
     toggleWrongAuthData()
 }
-const isAuthDataWrong = ref(false)
+function setPassword(newValue) {
+    changeVariableValue(password, newValue)
+    toggleWrongAuthData()
+}
 function toggleWrongAuthData(newValue = false) {
-    isAuthDataWrong.value = newValue
+    changeVariableValue(isAuthDataWrong, newValue)
 }
-const wrongDataMessage = ref('')
 function setWrongDataMessage(newValue) {
-    wrongDataMessage.value = newValue
+    changeVariableValue(wrongDataMessage, newValue)
 }
-const isAuthorizationInProgress = ref(false)
 function toggleAuthorizationSpinner(newValue = false) {
-    isAuthorizationInProgress.value = newValue
+    changeVariableValue(isAuthorizationInProgress, newValue)
 }
 async function handleAuthorize() {
     toggleAuthorizationSpinner(true)
@@ -58,8 +61,7 @@ async function handleAuthorize() {
         setPassword('')
         emit('authorization', newUserInfo)
         toggleAuthorizationSpinner()
-    } else if (newUserInfo === 404){
-        console.log(404)
+    } else if (newUserInfo === 503){
         toggleWrongAuthData(true)
         setWrongDataMessage('Ошибка при попытке авторизации. Попробуйте позже')
         toggleAuthorizationSpinner()

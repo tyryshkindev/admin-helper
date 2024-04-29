@@ -8,7 +8,7 @@ export const authorizeUser = async (userInfo) => {
     } catch (error) {
         console.error(error.message)
         alertClient('Возникла ошибка при авторизации. Попробуйте позже')
-        return 404
+        return 503
     }
     
 }
