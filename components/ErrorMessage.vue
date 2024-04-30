@@ -1,5 +1,5 @@
 <template>
-    <p class="text-red-700">{{ message }}</p>
+    <p class="text-red-500">{{ message }}</p>
 </template>
 <script setup>
 const props = defineProps({

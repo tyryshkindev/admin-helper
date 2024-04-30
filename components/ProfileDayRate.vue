@@ -4,13 +4,13 @@
             <p class="text-xl font-bold">Статистика за сегодня</p>
             <Icon name="i-heroicons-chart-bar" size="2em" class="ml-1 w-5 h-5align-middle"/>
         </div>
-        <template v-if="(typeof rateInfo === 'object' && typeof serverLimits === 'object')">
+        <template v-if="(typeof rateInfo === 'object' && typeof serverLimits.value === 'object')">
             <template v-for="(rate, key) in rateInfo" :key="key">
-                <p v-if="serverLimits[key] && key !== 'time'">{{ getLabel(key) }}: {{ rate }}</p>
+                <p v-if="serverLimits.value[key] && key !== 'time'">{{ getLabel(key) }}: {{ rate }}</p>
             </template>
-            <p v-if="serverLimits.time">Отыграно времени: {{ formatDate(rateInfo) }}</p>
+            <p v-if="serverLimits.value.time">Отыграно времени: {{ formatDate(rateInfo.time) }}</p>
         </template>
-        <p v-else class="text-red-500">Не удалось получить информацию о норме</p>
+        <ErrorMessage v-else :message="'Не удалось получить информацию о норме'"/>
     </div>
 </template>
 
@@ -27,9 +27,9 @@ const props = defineProps({
     }
 })
 const {rateInfo, serverInfo} = toRefs(props)
-let serverLimits
-if (typeof serverInfo === 'object') {
-    serverLimits = serverInfo.allowedRate
+const serverLimits = reactive({})
+if (serverInfo.value) {
+    serverLimits.value = serverInfo.value.allowedRate
 }
 const getLabel = (key) => {
   const labels = {

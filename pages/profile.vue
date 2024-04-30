@@ -8,6 +8,7 @@
                     <ProfileDayRate 
                         :rateInfo="todayRateInfo" 
                         :serverInfo="serverInfo"
+                        class="pr-4"
                     />
                     <ProfileTableRate 
                         :rateInfo="rateInfo" 
