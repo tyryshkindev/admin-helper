@@ -1,5 +1,5 @@
 <template>
-    <button class="rounded-lg" :type="props.type">
+    <button class="rounded-lg" :type="type">
         <NuxtLink to="/authorization" class="p-4 ">
             <Icon name="i-heroicons-arrow-left-end-on-rectangle" />Войти
         </NuxtLink>
@@ -12,4 +12,5 @@ const props = defineProps({
         default: 'button'
     },
 })
+const {type} = toRefs(props)
 </script>

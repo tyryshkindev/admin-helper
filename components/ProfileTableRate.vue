@@ -4,7 +4,7 @@
             <p class="text-xl font-bold">Статистика за месяц</p>
             <Icon name="i-heroicons-chart-bar" size="2em" class="ml-1 w-5 h-5 align-middle"/>
         </div>
-        <table class="overflow-scroll max-h-fit">
+        <table v-if="isRateAvailable">
             <thead>
                 <tr>
                     <th 
@@ -29,6 +29,7 @@
                 </tr>
             </tbody>
         </table>
+        <ErrorMessage v-else :message="'Не удалось получить данные о норме'" />
     </div>
 </template>
 
@@ -51,8 +52,10 @@ const allowedRate = reactive({})
 if (serverInfo.value) {
     minimumDailyRate.value = serverInfo.value.minimumDailyRate
     allowedRate.value = serverInfo.value.allowedRate
-
 } 
+const isRateAvailable = computed(() => {
+    return !!(minimumDailyRate.value && allowedRate.value && rateInfo.value)
+})
 // показать все значения, которые разрешены для отображения
 const displayedRates = computed(() => {
     return Object.keys(allowedRate.value).filter(rateName => allowedRate.value[rateName])
