@@ -1,39 +1,44 @@
 <template>
     <div class="text-white">
-        <div class="inline-flex items-center">
-            <p class="text-xl">Статистика за сегодня</p>
+        <div class="flex items-center">
+            <p class="text-xl font-bold">Статистика за сегодня</p>
             <Icon name="i-heroicons-chart-bar" size="2em" class="ml-1 w-5 h-5align-middle"/>
         </div>
-        <template v-if="(typeof rateInfo === 'object' && typeof serverLimits === 'object')">
+        <template v-if="isInfoAvailable">
             <template v-for="(rate, key) in rateInfo" :key="key">
-                <p v-if="serverLimits[key] && key !== 'time'">{{ getLabel(key) }}: {{ rate }}</p>
+                <div v-if="isRateAllowedToDisplay(key) && key !== 'time'" class="flex">
+                    <p class="pr-2">{{ getLabel(key) }}: {{ rate }}</p>
+                    <Icon v-if="isRateCompleted(key)" name="i-heroicons-check-20-solid" />
+                </div>
             </template>
-            <p v-if="serverLimits.time">Отыграно времени: {{ playedTime }}</p>
+            <div v-if="isRateAllowedToDisplay('time')" class="flex">
+                <p class="pr-2">Отыграно времени: {{ formattedTime }}</p>
+                <Icon v-if="isRateCompleted('time')" name="i-heroicons-check-20-solid" />
+            </div>
         </template>
-        <p v-else class="text-red-500">Не удалось получить информацию о норме</p>
+        <ErrorMessage v-else :message="'Не удалось получить информацию о норме'"/>
     </div>
 </template>
 
 <script setup>
+import {formatDate} from '@/utils/formatDate'
 const props = defineProps({
     rateInfo: {
         type: Object,
         required: true,
     },
-    serverLimits: {
-        type: Object,
+    serverInfo: {
+        type: [Object, null],
         required: true
     }
 })
-const {rateInfo, serverLimits} = toRefs(props)
-const formatDate = (date) => {
-    return date < 10 ? `0${date}` : `${date}`
+const {rateInfo, serverInfo} = toRefs(props)
+const serverLimits = reactive({})
+const minimumDailyRate = reactive({})
+if (serverInfo.value) {
+    serverLimits.value = serverInfo.value.allowedRate
+    minimumDailyRate.value = serverInfo.value.minimumDailyRate
 }
-const playedTime = computed(() => {
-    const hours = parseInt(rateInfo.value.time / 60) 
-    const minutes = rateInfo.value.time - (hours * 60)
-    return `${formatDate(hours)}:${formatDate(minutes)}`
-})
 const getLabel = (key) => {
   const labels = {
     pm: 'Ответов по репорту',
@@ -46,8 +51,17 @@ const getLabel = (key) => {
     return labels[key]
     
 }
+const isInfoAvailable = computed(() => {
+    return rateInfo && typeof rateInfo === 'object' && serverLimits.value && typeof serverLimits.value === 'object' 
+})
+function isRateAllowedToDisplay(key) {
+    return serverLimits.value && serverLimits.value[key]
+}
+const formattedTime = computed(() => formatDate(rateInfo.value.time))
+function isMinimumValueSpecified(rateName) {
+    return !!minimumDailyRate.value[rateName]
+}
+function isRateCompleted(rateName) {
+    return isMinimumValueSpecified(rateName) ? rateInfo.value[rateName] >= minimumDailyRate.value[rateName] : false
+}
 </script>
-
-<style lang="scss" scoped>
-
-</style>

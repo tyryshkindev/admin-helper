@@ -1,6 +1,7 @@
 <template>
     <div>
-        <form @submit.prevent class="py-8 px-5 bg-slate-700 rounded-lg">
+        <LoadingSpinner v-show="isAuthorizationInProgress" />
+        <form v-show="!isAuthorizationInProgress" @submit.prevent class="py-8 px-5 bg-slate-700 rounded-lg">
             <h2 class="text-white">Введите никнейм и пароль, как в игре</h2>
             <UIInputField 
             :inputValue="nickName" 
@@ -13,7 +14,7 @@
             :type="'password'" 
             :placeholder="'Пароль'" 
             />
-            <p v-show="isAuthDataWrong" class="text-red-700 ">Неверные данные для авторизации! Проверьте ник и пароль</p>
+            <ErrorMessage v-show="isAuthDataWrong" :message="wrongDataMessage" />
             <footer class="text-right mt-4">
                 <AuthorizationButton @click="handleAuthorize" class="bg-cyan-400 hover:bg-cyan-600 p-2" />
             </footer>
@@ -27,27 +28,47 @@ const emit = defineEmits({
     authorization: null
 })
 const nickName = ref('')
-function setNickName(newValue) {
-    nickName.value = newValue
-    toggleWrongAuthData()
-}
 const password = ref('')
-function setPassword(newValue) {
-    password.value = newValue
+const wrongDataMessage = ref('')
+const isAuthDataWrong = ref(false)
+const isAuthorizationInProgress = ref(false)
+
+function changeVariableValue(target, newValue) {
+    target.value = newValue
+}
+function setNickName(newValue) {
+    changeVariableValue(nickName, newValue)
     toggleWrongAuthData()
 }
-const isAuthDataWrong = ref(false)
+function setPassword(newValue) {
+    changeVariableValue(password, newValue)
+    toggleWrongAuthData()
+}
 function toggleWrongAuthData(newValue = false) {
-    isAuthDataWrong.value = newValue
+    changeVariableValue(isAuthDataWrong, newValue)
+}
+function setWrongDataMessage(newValue) {
+    changeVariableValue(wrongDataMessage, newValue)
+}
+function toggleAuthorizationSpinner(newValue = false) {
+    changeVariableValue(isAuthorizationInProgress, newValue)
 }
 async function handleAuthorize() {
+    toggleAuthorizationSpinner(true)
     const newUserInfo = await authenticateUser({nickname: nickName.value, password: password.value})
-    if (newUserInfo) {
+    if (typeof newUserInfo === 'object') {
         setNickName('')
         setPassword('')
         emit('authorization', newUserInfo)
+        toggleAuthorizationSpinner()
+    } else if (newUserInfo === 503){
+        toggleWrongAuthData(true)
+        setWrongDataMessage('Ошибка при попытке авторизации. Попробуйте позже')
+        toggleAuthorizationSpinner()
     } else {
         toggleWrongAuthData(true)
+        setWrongDataMessage('Неверные данные для авторизации! Проверьте ник и пароль')
+        toggleAuthorizationSpinner()
     }
 }
 </script>
