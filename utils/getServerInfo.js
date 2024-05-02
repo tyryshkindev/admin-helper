@@ -6,6 +6,9 @@ export const getServerInfo = async (userAuthorizationInfo) => {
     if (!authorizationResponse) {
         alertClient('Пройдите процедуру авторизации повторно') 
         return null
+    } else if (authorizationResponse === 503){
+        alertClient('Проверка на авторизацию не удачна')
+        return null
     }
     const {serverID: server} = userAuthorizationInfo
     const serverInfo = await fetchServerInfo(server)
