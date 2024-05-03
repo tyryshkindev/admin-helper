@@ -8,22 +8,25 @@
                 <UIInputField 
                 :inputValue="searchedPlayer" 
                 @update:inputValue="setSearchedPlayer" 
+                :placeholder="'Введите ник игрока'"
                 id="search__input"
                 class="text-black flex-1 my-3 py-2"
                 />
-                <SearchButton @searchPlayer="searchPlayer" class="mx-2"/>
+                <SearchButton :isDisabled="isButtonDisabled" @searchPlayer="searchPlayer" class="mx-2"/>
             </div>
         </div>            
     </div>
 </template>
 
 <script setup>
-import { getPlayerInfo } from '@/utils/getPlayerInfo'
 const searchedPlayer = ref('')
 function setSearchedPlayer(newValue) {
     searchedPlayer.value = newValue
 }
-function searchPlayer() {
-    const playerInfo = getPlayerInfo(searchedPlayer)
+function searchPlayer () {
+    return navigateTo(`/players/${searchedPlayer.value}`)
 }
+const isButtonDisabled = computed(() => {
+    return searchedPlayer.value.length <= 4
+})
 </script>
