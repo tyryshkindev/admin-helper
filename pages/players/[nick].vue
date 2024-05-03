@@ -5,9 +5,6 @@
 </template>
 
 <script setup>
-
+const {nick: playerNickname} = useRoute().params
+console.log(playerNickname)
 </script>
-
-<style lang="scss" scoped>
-
-</style>

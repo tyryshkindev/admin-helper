@@ -1,13 +1,8 @@
 <template>
-    <div>
-
+    <div class="container mx-auto text-white">
+        <PlayersSearchForm />
     </div>
 </template>
 
 <script setup>
-
 </script>
-
-<style lang="scss" scoped>
-
-</style>
