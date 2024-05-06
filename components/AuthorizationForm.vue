@@ -6,11 +6,13 @@
             <UIInputField 
             :inputValue="nickName" 
             @update:inputValue="setNickName" 
+            @keydown.enter="handleAuthorize"
             :placeholder="'Nick_Name'" 
             />
             <UIInputField 
             :inputValue="password" 
             @update:inputValue="setPassword" 
+            @keydown.enter="handleAuthorize"
             :type="'password'" 
             :placeholder="'Пароль'" 
             />

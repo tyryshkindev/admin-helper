@@ -1,0 +1,7 @@
+<template>
+    <h2 class="font-bold text-4xl">Сервер: {{ mainStore.user.serverID }}</h2>
+</template>
+
+<script setup>
+const mainStore = useMainAdminStore()
+</script>
