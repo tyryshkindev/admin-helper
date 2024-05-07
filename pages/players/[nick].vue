@@ -1,5 +1,5 @@
 <template>
-    <div class="container pt-4 mx-auto text-white">
+    <div v-if="isPlayerInfoAvailable" class="container pt-4 mx-auto text-white">
         <ServerNumber />
         <div class="py-4 flex">
             <h2 class="font-bold text-2xl">Аккаунт: {{ playerInfo.value.nickname }}</h2>
@@ -13,18 +13,33 @@
             v-if="!playerInfo.value.isPlayerBanned" 
             :playerNickname="playerInfo.value.nickname"
             :playerID="Number(playerInfo.value.id)"
+            @alistUpdated="alistChange"
         />
     </div>
+    <PlayerWrongMessage v-else />
 </template>
 
 <script setup>
 const playerInfo = reactive({})
 const {nick} = useRoute().params
 const mainStore = useMainAdminStore()
-const responseplayerInfo = await getPlayerInfo(nick, mainStore.user)
-if (!responseplayerInfo?.length) {
-    throw createError({statusCode: 404, message: 'Запрашиваемый игрок не найден'})
-} else {
-    playerInfo.value = responseplayerInfo[0]
+async function getPlayerInfoFromServer() {
+    const requester = {
+        nickname: mainStore.user.nickname,
+        password: mainStore.user.password
+    }
+    const responseplayerInfo = await getPlayerInfo(nick, requester)
+    if (responseplayerInfo) {
+        playerInfo.value = responseplayerInfo
+    }
 }
+function alistChange() {
+    getPlayerInfoFromServer()
+}
+const isPlayerInfoAvailable = computed(() => {
+    return playerInfo.value && Object.keys(playerInfo.value).length
+})
+onMounted(() => {
+    getPlayerInfoFromServer()
+})
 </script>

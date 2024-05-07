@@ -18,7 +18,7 @@ export const getPlayerInfo = async(nickname, requester) => {
         return null
     } else if (getPlayerResponse === 503) {
         return null
-    } return getPlayerResponse
+    } return getPlayerResponse[0]
     
     } return null
 }

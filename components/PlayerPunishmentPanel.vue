@@ -1,5 +1,5 @@
 <template>
-    <div class="pt-4">
+    <div class="pt-2">
         <p class="text-lg pb-2">Панель управления</p>
         <div class="flex justify-start">
             <template v-for="punishment in punishmentTypes" :key="punishment.id">
@@ -14,12 +14,16 @@
         <PlayerPunishmentInput 
             v-if="isAllowedToEnterReason" 
             :punishmentType="punishmentType" 
+            :parentReason="punishmentReason"
+            :parentDuration="punishmentDuration"
             @update:punishmentReason="setPunishmentReason"
             @update:punishmentDuration="setPunishmentDuration"
+            @update:wrongDuration="setWrongDuration"
+            @punishPlayer="handlePunishPlayer"
         />
         <PunishPlayerButton 
-            v-if="isAllowedToPunishPlayer" 
-            @click="handleClickPunishment"
+            v-if="isAllowedToPunishPlayer && !isDurationWrong" 
+            @click="handlePunishPlayer"
             class="mt-2"
         />
     </div>
@@ -39,53 +43,78 @@ const props = defineProps({
     }
 })
 const {playerID, playerNickname} = toRefs(props)
+const emit = defineEmits({
+    'alistUpdated': null
+})
+const mainStore = useMainAdminStore()
 const punishmentType = ref('')
 const punishmentReason = ref('')
 const punishmentDuration = ref('')
 const isAllowedToEnterReason = ref(false)
 const isAllowedToPunishPlayer = ref(false)
+const isDurationWrong = ref(false)
 function getPunishmentType(type) {
     return Object.keys(punishmentTypes).find(key => punishmentTypes[key] === type)
-    
 }
 function isPunishmentActive(type) {
-    console.log(punishmentType.value === getPunishmentType(type))
     return punishmentType.value === getPunishmentType(type)
 }
 function handlePunishmentChoice(type) {
-    // punishmentType.value = punishmentType.value === getPunishmentType(type) ? '' : getPunishmentType(type)
     if (punishmentType.value === getPunishmentType(type)) {
         punishmentType.value = ''
-        isAllowedToEnterReason.value = false
+        togglePermisionToEnterReason(false)
     } else {
         punishmentType.value = getPunishmentType(type)
-        isAllowedToEnterReason.value = true
+        togglePermisionToEnterReason(true)
     }
     setPunishmentReason('')
-    setPunishmentDuration('')
+    setPunishmentDuration(0)
     isAllowedToPunishPlayer.value = false
 }
+function setWrongDuration(newValue) {
+    isDurationWrong.value = newValue
+}
+function togglePermisionToPunishPlayer(newValue) {
+    isAllowedToPunishPlayer.value = newValue
+}
+function togglePermisionToEnterReason(newValue) {
+    isAllowedToEnterReason.value = newValue
+}
 function setPunishmentReason(newValue) {
-    punishmentReason.value = newValue
+    punishmentReason.value = newValue.trim()
     if (punishmentType.value === 'warn' && newValue.length >= 3) {
-        isAllowedToPunishPlayer.value = true
+        togglePermisionToPunishPlayer(true)
     }
     if (newValue.length < 3) {
-        isAllowedToPunishPlayer.value = false
+        togglePermisionToPunishPlayer(false)
     }
 }
 function setPunishmentDuration(newValue) {
     punishmentDuration.value = newValue
-    isAllowedToPunishPlayer.value = !!newValue
+    togglePermisionToPunishPlayer(!!newValue)
 }
-function handleClickPunishment() {
-    punishPlayer({ID: playerID.value, nickname: playerNickname.value}, {
-    "type": "rmute",
-    "time": "1714976802014",
-    "adminNick": "Valeriy_Tyryshkin",
-    "duration": "360",
-    "reason": "Оскорбление администрации"
-    })
+async function handlePunishPlayer() {
+    const target = {
+        ID: playerID.value, 
+        nickname: playerNickname.value
+    }
+    const punishmentInfo = {
+        "type": punishmentType.value,
+        "time": `${Date.now()}`,
+        "adminNick": mainStore.user.nickname,
+        "reason": punishmentReason.value 
+    }
+    if (punishmentType !== 'warn') {
+        punishmentInfo.duration = punishmentDuration.value
+    }
+    const response = await punishPlayer(target, punishmentInfo)
+    if (response) {
+        emit('alistUpdated')
+        handlePunishmentChoice('')
+        togglePermisionToEnterReason(false)
+        setPunishmentReason('')
+        setPunishmentDuration(0)
+    }
 }
 </script>
 

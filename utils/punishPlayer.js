@@ -8,5 +8,6 @@ export const punishPlayer = async (target, punishmentInfo) => {
         return null
     }
     const existingAlist = playerInfoResponse[0].alist
-   setPunishment(target.ID, existingAlist, punishmentInfo)
+   const response = await setPunishment(target.ID, existingAlist, punishmentInfo)
+   return !!response && response !== 503
 }

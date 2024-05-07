@@ -17,5 +17,6 @@ export const setPunishment = async (targetID, existingAlist, punishmentInfo) => 
     } catch (error) {
         alertClient('Выдача наказания неудачна. Произошла ошибка на сервере')
         console.error(error)
+        return 503
     }
 }
