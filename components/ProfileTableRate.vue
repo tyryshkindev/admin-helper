@@ -1,5 +1,5 @@
 <template>
-    <div class="text-white">
+    <div class="text-white max-h-96 overflow-hidden hover:overflow-auto">
         <div class="flex items-center mb-2">
             <p class="text-xl font-bold">Статистика за месяц</p>
             <Icon name="i-heroicons-chart-bar" size="2em" class="ml-1 w-5 h-5 align-middle"/>
