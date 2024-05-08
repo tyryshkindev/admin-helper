@@ -1,4 +1,4 @@
-<template>
+<!-- <template>
     <div class="container pt-12 mx-auto text-white">
         <div class="flex justify-between">
             <ServerNumber class="py-4"/>
@@ -50,4 +50,13 @@ const nicknameWithoutUnderscore = computed(() => {
     mainStore.user.nickname.split('_').join(' ')
     : null
 })
+</script> -->
+<template>
+    <div>
+        <p>Профиль</p>
+    </div>
+</template>
+
+<script setup>
+
 </script>

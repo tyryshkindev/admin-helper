@@ -18,7 +18,10 @@ const mainStore = useMainAdminStore()
 function authorizeUser(userInfo) {
     if (userInfo) {
         mainStore.writeUser(userInfo)
-        return navigateTo('/profile')
+        redirectBasedOnAdminLvl()
     }
+}
+function redirectBasedOnAdminLvl() {
+    return mainStore.user.adminLvl >= 5 ? navigateTo('/profile') : navigateTo('/statistics')
 }
 </script>

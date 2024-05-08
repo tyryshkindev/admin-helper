@@ -14,8 +14,11 @@ function countdown() {
         remainingTime.value--
     }, 1000)
 }
-setTimeout(() => navigateTo('/players'), 10000)
+const redirect = setTimeout(() => navigateTo('/players'), 10000)
 onMounted(() => {
     countdown()
+})
+onBeforeUnmount(() => {
+    clearTimeout(redirect)
 })
 </script>

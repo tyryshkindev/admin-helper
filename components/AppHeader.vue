@@ -1,9 +1,9 @@
 <template>
     <header class="max-h-[6.5vh] bg-black">
         <nav class="container mx-auto p-3 flex justify-between">
-            <NuxtLink to="/">
+            <div @click="countHomeRoute" class="hover:cursor-pointer">
                 <img src="../public/hassle__logo.svg" alt="Hassle Logotype">
-            </NuxtLink>
+            </div>
             <div v-if="mainStore.isUserAuthorized" class="flex flex-wrap bg-gray-200 rounded-md p-1.5">
                 <HeaderNavLinks :links="links.value || []"/>
             </div>
@@ -50,5 +50,10 @@ switch (mainStore.user.adminLvl) {
         links.value = [{...linkParts.profile},{...linkParts.statistics}]
         break
     
+}
+function countHomeRoute() {
+    if (mainStore.isUserAuthorized) {
+        return mainStore.user.adminLvl >= 5 ? navigateTo('/profile') : navigateTo('/statistics')
+    } return navigateTo('/')
 }
 </script>
