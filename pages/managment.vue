@@ -6,6 +6,10 @@
             :serverPermissions="serverInfo.allowedRate"
             @changePermissions="changePermissions"
         />
+        <ManagmentMinimumRate 
+            :minimumRate="serverInfo.minimumDailyRate"
+            @changeRate="changeRate"
+        />
     </div>
 </template>
 
@@ -26,6 +30,10 @@ function compareStates() {
 }
 function changePermissions(newPermissions) {
     modifiedServerInfo.value.allowedRate = newPermissions
+    compareStates()
+}
+function changeRate(newRate) {
+    modifiedServerInfo.value.minimumDailyRate = newRate
     compareStates()
 }
 </script>
