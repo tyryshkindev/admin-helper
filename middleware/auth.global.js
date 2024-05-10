@@ -5,8 +5,13 @@ const adminAllowedRoutes = [
     '/statistics',
     '/players'
 ]
+const deputyAllowedRoutes = [
+    '/monitoring',
+    '/players'
+]
 const headAllowedRoutes = [
-    '/profile',
+    '/managment',
+    '/monitoring',
     '/players'
 ]
 const unauthorizedRoutes = [
@@ -34,9 +39,12 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
                 }
                 break
             case '5':
+                if (!checkPath(to.path, deputyAllowedRoutes) && !checkPlayersPath(to.path)) {
+                    return navigateTo('/monitoring')
+                }
             case '6': 
                 if (!checkPath(to.path, headAllowedRoutes) && !checkPlayersPath(to.path)) {
-                    return navigateTo('/profile')
+                    return navigateTo('/managment')
                 }
                 break
         }

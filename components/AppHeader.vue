@@ -34,6 +34,14 @@ const linkParts = reactive({
         label: 'Поиск игроков',
         icon: 'i-heroicons-magnifying-glass',
         to: '/players'
+    }, managment: {
+        label: 'Управление сервером',
+        icon: 'i-heroicons-adjustments-vertical',
+        to: '/managment'
+    }, monitoring: {
+        label: 'Мониторинг администрации',
+        icon: 'i-heroicons-identification',
+        to: '/monitoring'
     }
 })
 switch (mainStore.user.adminLvl) {
@@ -46,14 +54,29 @@ switch (mainStore.user.adminLvl) {
         links.value = [{...linkParts.statistics}, {...linkParts.search}]
         break
     case '5':
-    case '6':
-        links.value = [{...linkParts.profile},{...linkParts.statistics}]
+        links.value = [{...linkParts.monitoring}, {...linkParts.search}]
         break
-    
+    case '6':
+        links.value = [{...linkParts.managment},{...linkParts.monitoring},{...linkParts.search}]
+        break
+}
+const redirectHome = () =>  {
+    const juniorAdmins = ['1','2','3', '4']
+    const adminLvl = mainStore.user.adminLvl
+    const checkAdminLvl = lvl => lvl === adminLvl
+    if (juniorAdmins.some(checkAdminLvl)) {
+        return navigateTo('/statistics')
+    } else if (adminLvl === '5') {
+        return navigateTo('/monitoring')
+    } else {
+        return navigateTo('/managment')
+    }
 }
 function countHomeRoute() {
     if (mainStore.isUserAuthorized) {
-        return mainStore.user.adminLvl >= 5 ? navigateTo('/profile') : navigateTo('/statistics')
-    } return navigateTo('/')
+        redirectHome()
+    } else {
+        return navigateTo('/')
+    }
 }
 </script>
