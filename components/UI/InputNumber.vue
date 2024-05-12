@@ -3,7 +3,7 @@
         type="number"
         :value="inputValue"
         @input="handleInput"
-        class="text-black max-w-16 rounded pl-1"
+        class="text-black max-w-16 rounded pl-1 mt-1 bg-slate-300"
         min="0"
     >
 </template>
@@ -23,6 +23,8 @@ const emit = defineEmits({
     'inputChange': null
 })
 function handleInput(event) {
-    emit('inputChange', {newValue: Number(event.target.value), rateName: assignedValue.value})
+    Number(event.target.value)
+    ? emit('inputChange', {newValue: Number(event.target.value), rateName: assignedValue.value})
+    : null
 }
 </script>

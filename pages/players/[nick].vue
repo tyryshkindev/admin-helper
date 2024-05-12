@@ -28,9 +28,9 @@ async function getPlayerInfoFromServer() {
         nickname: mainStore.user.nickname,
         password: mainStore.user.password
     }
-    const responseplayerInfo = await getPlayerInfo(nick, requester)
-    if (responseplayerInfo) {
-        playerInfo.value = responseplayerInfo
+    const responsePlayerInfo = await getPlayerInfo(nick, requester)
+    if (responsePlayerInfo) {
+        playerInfo.value = responsePlayerInfo
     }
 }
 function alistChange() {
