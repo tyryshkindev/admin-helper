@@ -16,7 +16,6 @@ const props = defineProps({
     }
 })
 const {isCheckboxActive, assignedValue} = toRefs(props)
-watch(isCheckboxActive, newValue => console.log(newValue))
 const emit = defineEmits({
     'checkboxToggle': null
 })
