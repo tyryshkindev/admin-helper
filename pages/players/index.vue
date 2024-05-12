@@ -1,8 +1,5 @@
 <template>
     <div class="container mx-auto text-white">
-        <PlayersSearchForm />
+        <SearchForm :role="'player'" />
     </div>
 </template>
-
-<script setup>
-</script>
