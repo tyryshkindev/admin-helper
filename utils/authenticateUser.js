@@ -10,7 +10,6 @@ export const authenticateUser = async (authorizationData) => {
         } else {
             return null
         }
-        // return response?.length ? response[0] : null
     } else {
         return null
     }

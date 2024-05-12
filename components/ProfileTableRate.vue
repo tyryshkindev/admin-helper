@@ -38,7 +38,7 @@
 import { formatDate } from "@/utils/formatDate"
 const props = defineProps({
     serverInfo: {
-        type: [Object, null],
+        type: Object,
         required: true
     },
     rateInfo: {

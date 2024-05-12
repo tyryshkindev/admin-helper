@@ -28,7 +28,7 @@ const props = defineProps({
         required: true,
     },
     serverInfo: {
-        type: [Object, null],
+        type: Object,
         required: true
     }
 })

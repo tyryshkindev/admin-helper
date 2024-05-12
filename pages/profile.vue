@@ -1,4 +1,4 @@
-<template>
+<!-- <template>
     <div class="container pt-12 mx-auto text-white">
         <div class="flex justify-between">
             <ServerNumber class="py-4"/>
@@ -9,12 +9,12 @@
             <div class="flex">
                 <ProfileDayRate 
                     :rateInfo="todayRateInfo" 
-                    :serverInfo="serverInfo"
+                    :serverInfo="serverInfo || []"
                     class="pr-4"
                 />
                 <ProfileTableRate 
                     :rateInfo="rateInfo" 
-                    :serverInfo="serverInfo" 
+                    :serverInfo="serverInfo || []" 
                 />
             </div>
         </div>
@@ -25,12 +25,38 @@
 <script setup>
 import { getServerInfo } from '@/utils/getServerInfo'
 const mainStore = useMainAdminStore()
+
 const rateInfo = mainStore.user.rate
 const todayRateInfo = rateInfo[rateInfo.length - 1]
-const serverInfo = await getServerInfo(mainStore.user)
+const authorizationInfo = reactive({
+    nickname: mainStore.user.nickname,
+    password: mainStore.user.password,
+    serverID: mainStore.user.serverID,
+})
+const serverInfo = await getServerInfo(authorizationInfo)
+serverInfo.minimumDailyRate = mainStore.user.adminLvl === '1' // если пользовать - помощник
+? serverInfo.minimumDailyRate.helper // выставляем минимальные требования как к помощнику
+: serverInfo.minimumDailyRate.admin // в ином случае требования как к администратору
+const allowedForHelpersRates = {
+    pm: serverInfo.allowedRate.pm,
+    z: serverInfo.allowedRate.z,
+    time: serverInfo.allowedRate.time
+}
+serverInfo.allowedRate = mainStore.user.adminLvl === '1' // если пользователь - помощник
+? serverInfo.allowedRate = allowedForHelpersRates // выставляем только нужные ему разрешенные требования 
+: serverInfo.allowedRate // оставляем все как есть
 const nicknameWithoutUnderscore = computed(() => {
-    return !!Object.keys(mainStore.user).length ? 
+    return mainStore.isUserAuthorized ? 
     mainStore.user.nickname.split('_').join(' ')
     : null
 })
+</script> -->
+<template>
+    <div>
+        <p>Профиль</p>
+    </div>
+</template>
+
+<script setup>
+
 </script>

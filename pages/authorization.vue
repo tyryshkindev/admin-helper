@@ -15,10 +15,22 @@ useHead({
     title: 'Авторизация | admins.hassle.online'
 })
 const mainStore = useMainAdminStore()
+const redirectHome = () =>  {
+    const juniorAdmins = ['1','2','3', '4']
+    const adminLvl = mainStore.user.adminLvl
+    const checkAdminLvl = lvl => lvl === adminLvl
+    if (juniorAdmins.some(checkAdminLvl)) {
+        return navigateTo('/statistics')
+    } else if (adminLvl === '5') {
+        return navigateTo('/monitoring')
+    } else {
+        return navigateTo('/managment')
+    }
+}
 function authorizeUser(userInfo) {
     if (userInfo) {
         mainStore.writeUser(userInfo)
-        return navigateTo('/profile')
+        redirectHome()
     }
 }
 </script>
