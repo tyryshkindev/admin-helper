@@ -2,7 +2,7 @@
     <div class="pt-2">
         <p class="text-lg pb-2">Панель управления</p>
         <div class="flex justify-start">
-            <template v-for="punishment in punishmentTypes" :key="punishment.id">
+            <template v-for="punishment in formattedTypes" :key="punishment.id">
                 <PlayerPunishmentButton 
                     :buttonText="punishment" 
                     class="mr-3" 
@@ -53,6 +53,16 @@ const punishmentDuration = ref('')
 const isAllowedToEnterReason = ref(false)
 const isAllowedToPunishPlayer = ref(false)
 const isDurationWrong = ref(false)
+const formattedTypes = computed(() => {
+    const allowedTyperFor2Lvl = {
+        'rmute': 'Блокировка репорта',
+        'mute': 'Блокировка чата',
+        'fmute': 'Полная блокировка чатов'        
+    }
+    return mainStore.user.adminLvl === '2'
+    ? allowedTyperFor2Lvl
+    : punishmentTypes
+})
 function getPunishmentType(type) {
     return Object.keys(punishmentTypes).find(key => punishmentTypes[key] === type)
 }
