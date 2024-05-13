@@ -19,7 +19,8 @@ const unauthorizedRoutes = [
     '/authorization'
 ]
 const checkPath = (path, routes) => routes.some(route => path === route)
-const checkSearchedPath = path => path.includes('/players') || path.includes('/monitoring')
+const checkPlayersPath =  path => path.includes('/players')
+const checkSearchedPath = path => checkPlayersPath (path) || path.includes('/monitoring')
 
 export default defineNuxtRouteMiddleware(async (to, from) => {
     const mainStore = await useMainAdminStore()
@@ -34,7 +35,7 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
             case '2':
             case '3':
             case '4':
-                if (!checkPath(to.path, adminAllowedRoutes) && !checkSearchedPath(to.path)) {
+                if (!checkPath(to.path, adminAllowedRoutes) && !checkPlayersPath(to.path)) {
                     return navigateTo('/statistics')
                 }
                 break
