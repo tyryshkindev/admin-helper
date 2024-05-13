@@ -37,7 +37,7 @@ const formattedRole = computed(() => {
 const formattedRoute = computed(() => {
     const routes = {
         'player': 'players',
-        'admin': 'monitoting'
+        'admin': 'monitoring'
     }
     return routes[role.value]
 })

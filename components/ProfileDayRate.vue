@@ -52,7 +52,7 @@ const getLabel = (key) => {
     
 }
 const isInfoAvailable = computed(() => {
-    return rateInfo && typeof rateInfo === 'object' && serverLimits.value && typeof serverLimits.value === 'object' 
+    return rateInfo && typeof rateInfo.value === 'object' && serverLimits.value && typeof serverLimits.value === 'object' 
 })
 function isRateAllowedToDisplay(key) {
     return serverLimits.value && serverLimits.value[key]

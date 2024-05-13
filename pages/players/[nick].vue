@@ -16,7 +16,7 @@
             @alistUpdated="alistChange"
         />
     </div>
-    <PlayerWrongMessage v-else />
+    <SearchWrongMessage v-else :role="'player'"/>
 </template>
 
 <script setup>
