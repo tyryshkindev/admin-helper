@@ -12,7 +12,7 @@
                     <span class="w-full h-[2px] bg-white absolute top-1/2 rotate-45 -translate-y-1/2"></span>
                     <span class="w-full h-[2px] bg-white absolute top-1/2 -rotate-45 -translate-y-1/2"></span>
                 </div>
-                <AppHeaderBurgerLinks :links="links" @clickLink="closeMenu" />
+                <HeaderBurgerLinks :links="links" @clickLink="closeMenu" />
             </div>
         </transition>
 

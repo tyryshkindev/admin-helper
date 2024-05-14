@@ -2,12 +2,12 @@
     <header class="max-h-[6.5vh] bg-black">
         <nav class="container mx-auto p-3 flex justify-between">
             <div @click="countHomeRoute" class="hover:cursor-pointer">
-                <img src="../public/hassle__logo.svg" alt="Hassle Logotype">
+                <img src="../../public/hassle__logo.svg" alt="Hassle Logotype">
             </div>
             <template v-if="mainStore.isUserAuthorized">
-                <AppHeaderBurger :links="links.value || []" />
+                <HeaderBurger :links="links.value || []" />
                 <div class="hidden lg:flex flex-wrap bg-gray-200 rounded-md p-1.5">
-                    <HeaderNavLinks :links="links.value || []"/>
+                    <HeaderNavigationLinks :links="links.value || []"/>
                 </div>
             </template>
             <slot v-else>

@@ -1,11 +1,8 @@
 <template>
     <div>
-        <AppHeader />
-        <BackgroundImage>
+        <HeaderMain />
+        <AppBackgroundImage>
         <slot/>
-        <footer>
-        
-        </footer>
-        </BackgroundImage>
+        </AppBackgroundImage>
     </div>
 </template>

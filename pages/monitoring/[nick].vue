@@ -5,12 +5,12 @@
             <h2 class="font-bold text-2xl py-4">Администратор {{ nicknameWithoutUnderscore }}</h2>
             <p class="text-lg">Уровень: {{ adminInfo.value.adminLvl }}</p>
             <div class="flex">
-                <ProfileDayRate 
+                <StatisticsDayRate 
                     :rateInfo="todayRateInfo" 
                     :serverInfo="serverInfo.value || {}"
                     class="pr-4"
                 />
-                <ProfileTableRate 
+                <StatisticsTableRate 
                     :rateInfo="rateInfo" 
                     :serverInfo="serverInfo.value || {}" 
                 />
@@ -21,8 +21,6 @@
 </template>
 
 <script setup>
-import { getAdminInfo } from '@/utils/getAdminInfo'
-import { getServerInfo } from '@/utils/getServerInfo'
 const mainStore = useMainAdminStore()
 const {nick} = useRoute().params
 const authorizationInfo = reactive({

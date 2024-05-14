@@ -7,12 +7,12 @@
         <div>
             <h2 class="font-bold text-2xl py-4">Администратор {{ nicknameWithoutUnderscore }}</h2>
             <div class="flex">
-                <ProfileDayRate 
+                <StatisticsDayRate 
                     :rateInfo="todayRateInfo" 
                     :serverInfo="serverInfo || []"
                     class="pr-4"
                 />
-                <ProfileTableRate 
+                <StatisticsTableRate 
                     :rateInfo="rateInfo" 
                     :serverInfo="serverInfo || []" 
                 />
@@ -23,7 +23,6 @@
 </template>
 
 <script setup>
-import { getServerInfo } from '@/utils/getServerInfo'
 const mainStore = useMainAdminStore()
 
 const rateInfo = mainStore.user.rate
