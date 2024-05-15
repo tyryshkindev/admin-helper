@@ -1,5 +1,5 @@
 <template>
-    <div v-if="isInfoAvailable" class="container mx-auto pt-4 text-white">
+    <div v-if="isInfoAvailable" class="container mx-auto p-4 text-white">
         <AppServerNumber />
         <h2 class="text-2xl font-bold pt-4">Управление серверной информацией</h2>
         <ManagmentServerPermissions 
