@@ -1,6 +1,6 @@
 <template>
     <div v-if="isInfoAvailable" class="container pt-12 mx-auto text-white">
-        <ServerNumber class="py-4"/>
+        <AppServerNumber class="py-4"/>
         <div>
             <h2 class="font-bold text-2xl py-4">Администратор {{ nicknameWithoutUnderscore }}</h2>
             <p class="text-lg">Уровень: {{ adminInfo.value.adminLvl }}</p>

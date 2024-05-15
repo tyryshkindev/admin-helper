@@ -1,8 +1,8 @@
 <template>
     <div class="container pt-12 mx-auto text-white">
         <div class="flex justify-between">
-            <ServerNumber class="py-4"/>
-            <LogoutButton />
+            <AppServerNumber class="py-4"/>
+            <StatisticsLogoutButton />
         </div>
         <div>
             <h2 class="font-bold text-2xl py-4">Администратор {{ nicknameWithoutUnderscore }}</h2>
@@ -24,7 +24,6 @@
 
 <script setup>
 const mainStore = useMainAdminStore()
-
 const rateInfo = mainStore.user.rate
 const todayRateInfo = rateInfo[rateInfo.length - 1]
 const authorizationInfo = reactive({

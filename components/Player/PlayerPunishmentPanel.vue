@@ -21,7 +21,7 @@
             @update:wrongDuration="setWrongDuration"
             @punishPlayer="handlePunishPlayer"
         />
-        <PunishPlayerButton 
+        <PlayerPunishButton 
             v-if="isAllowedToPunishPlayer && !isDurationWrong" 
             @click="handlePunishPlayer"
             class="mt-2"
@@ -31,7 +31,6 @@
 
 <script setup>
 import {punishmentTypes} from '@/constants/index'
-import {punishPlayer} from '@/utils/punishPlayer'
 const props = defineProps({
     playerID: {
         type: Number,

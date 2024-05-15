@@ -3,7 +3,3 @@
         <p class="p-2 text-black">Выдать наказание</p>
     </button>
 </template>
-
-<script setup>
-
-</script>

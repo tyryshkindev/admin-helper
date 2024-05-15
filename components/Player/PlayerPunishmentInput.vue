@@ -17,7 +17,7 @@
             class="max-w-[30%]"
             @keydown.enter="handleDurationEnter"
         />
-        <ErrorMessage v-show="isPunishmentDurationWrong" :message="'Неверная длительность наказания. Поддерживаются только цифры'" />
+        <AppErrorMessage v-show="isPunishmentDurationWrong" :message="'Неверная длительность наказания. Поддерживаются только цифры'" />
     </div>
 </template>
 

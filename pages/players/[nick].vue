@@ -1,6 +1,6 @@
 <template>
     <div v-if="isPlayerInfoAvailable" class="container pt-4 mx-auto text-white">
-        <ServerNumber />
+        <AppServerNumber />
         <div class="py-4 flex">
             <h2 class="font-bold text-2xl">Аккаунт: {{ playerInfo.value.nickname }}</h2>
             <p v-if="playerInfo.value.isPlayerBanned" class="font-bold text-xl text-red-500 pl-2 pt-1">ЗАБЛОКИРОВАН</p>

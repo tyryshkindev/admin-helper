@@ -16,12 +16,11 @@
                 <Icon v-if="isRateCompleted('time')" name="i-heroicons-check-20-solid" />
             </div>
         </template>
-        <ErrorMessage v-else :message="'Не удалось получить информацию о норме'"/>
+        <AppErrorMessage v-else :message="'Не удалось получить информацию о норме'"/>
     </div>
 </template>
 
 <script setup>
-import {formatDate} from '@/utils/formatDate'
 const props = defineProps({
     rateInfo: {
         type: Object,

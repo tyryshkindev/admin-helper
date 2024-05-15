@@ -29,13 +29,12 @@
                 </tr>
             </tbody>
         </table>
-        <ErrorMessage v-else :message="'Не удалось получить данные о норме'" />
+        <AppErrorMessage v-else :message="'Не удалось получить данные о норме'" />
     </div>
 </template>
 
 
 <script setup>
-import { formatDate } from "@/utils/formatDate"
 const props = defineProps({
     serverInfo: {
         type: Object,
