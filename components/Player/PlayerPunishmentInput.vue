@@ -4,7 +4,7 @@
             :placeholder="'Введите причину наказания'" 
             :inputValue="punishmentReason.value || ''"
             @update:inputValue="setPunishmentReason"
-            class="max-w-[30%]"
+            class="md:max-w-[30%]"
             @keydown.enter="handleReasonEnter"
         />
         <br>
@@ -14,7 +14,7 @@
             :placeholder="'Введите длительность наказания'"
             @update:inputValue="setPunishmentDuration"
             id="duration__input"
-            class="max-w-[30%]"
+            class="md:max-w-[30%]"
             @keydown.enter="handleDurationEnter"
         />
         <AppErrorMessage v-show="isPunishmentDurationWrong" :message="'Неверная длительность наказания. Поддерживаются только цифры'" />

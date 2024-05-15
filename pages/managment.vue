@@ -21,8 +21,9 @@
 </template>
 
 <script setup>
-import { getServerInfo } from '@/utils/getServerInfo'
-import { modifyServerInfo } from '@/utils/modifyServerInfo'
+useHead({
+    title: 'Управление сервером'
+})
 const mainStore = useMainAdminStore()
 const authorizationInfo = reactive({
     password: mainStore.user.password,

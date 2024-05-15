@@ -23,6 +23,9 @@
 </template>
 
 <script setup>
+useHead({
+    title: 'Статистика администратора'
+})
 const mainStore = useMainAdminStore()
 const rateInfo = mainStore.user.rate
 const todayRateInfo = rateInfo[rateInfo.length - 1]
