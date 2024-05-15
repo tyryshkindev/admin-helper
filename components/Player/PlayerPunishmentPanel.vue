@@ -1,11 +1,11 @@
 <template>
     <div class="pt-2">
         <p class="text-lg pb-2">Панель управления</p>
-        <div class="flex justify-start">
+        <div class="grid grid-cols-3 gap-2 lg:flex lg:justify-start">
             <template v-for="punishment in formattedTypes" :key="punishment.id">
                 <PlayerPunishmentButton 
                     :buttonText="punishment" 
-                    class="mr-3" 
+                    class="mr-3 truncate" 
                     :class="{'!bg-red-300': isPunishmentActive(punishment)}"
                     @click="handlePunishmentChoice(punishment)" 
                 />

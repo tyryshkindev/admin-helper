@@ -1,5 +1,5 @@
 <template>
-    <div class="container mx-auto py-4">
+    <div class="container mx-auto p-4">
         <p class="text-red-500 font-bold text-xl pb-4">Запрашиваемый {{ formattedRole }} не зарегистрирован на сервере</p>
         <p class="text-white text-lg pb-4">Вы будете автоматически перенаправлены на страницу поиска через {{ remainingTime }} секунд</p>
         <SearchWrongReturnButton :redirectRoute="redirectRoute" />

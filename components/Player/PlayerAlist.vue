@@ -1,5 +1,5 @@
 <template>
-    <div v-if="alist && !!Object.keys(alist).length" class="max-h-96 overflow-hidden hover:overflow-auto">
+    <div v-if="alist && !!Object.keys(alist).length" class="max-h-60 lg:max-h-96 overflow-auto xl:overflow-hidden hover:overflow-auto">
         <p class="pb-3">Последние наказания игрока:</p>
         <div v-for="punishment in alist" :key="punishment.id" class="pb-3">
             <p>Наказание: {{ getPunishmentType(punishment.type) }}</p>
