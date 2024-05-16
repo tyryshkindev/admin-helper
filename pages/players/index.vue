@@ -3,3 +3,8 @@
         <SearchForm :role="'player'" />
     </div>
 </template>
+<script setup>
+useHead({
+    title: 'Поиск игроков'
+})
+</script>

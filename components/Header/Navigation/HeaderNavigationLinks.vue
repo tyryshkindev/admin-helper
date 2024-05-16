@@ -1,6 +1,6 @@
 <template>
     <div v-for="(link, index) in links" :key="index" :class="{ 'border-b-2 border-sky-600': isLinkActive(link) }">
-        <HeaderNavLink :link="link"/>
+        <HeaderNavigationLink :link="link" class="hover:bg-white" />
     </div>
 </template>
 

@@ -1,16 +1,16 @@
 <template>
-    <div v-if="isInfoAvailable" class="container pt-12 mx-auto text-white">
-        <ServerNumber class="py-4"/>
+    <div v-if="isInfoAvailable" class="container px-4 pt-2 md:pt-4 mx-auto text-white">
+        <AppServerNumber class="py-2 md:pt-4"/>
         <div>
-            <h2 class="font-bold text-2xl py-4">Администратор {{ nicknameWithoutUnderscore }}</h2>
+            <h2 class="font-bold text-2xl py-2 md:py-4">Администратор {{ nicknameWithoutUnderscore }}</h2>
             <p class="text-lg">Уровень: {{ adminInfo.value.adminLvl }}</p>
-            <div class="flex">
-                <ProfileDayRate 
+            <div class="md:flex">
+                <StatisticsDayRate 
                     :rateInfo="todayRateInfo" 
                     :serverInfo="serverInfo.value || {}"
                     class="pr-4"
                 />
-                <ProfileTableRate 
+                <StatisticsTableRate 
                     :rateInfo="rateInfo" 
                     :serverInfo="serverInfo.value || {}" 
                 />
@@ -21,8 +21,6 @@
 </template>
 
 <script setup>
-import { getAdminInfo } from '@/utils/getAdminInfo'
-import { getServerInfo } from '@/utils/getServerInfo'
 const mainStore = useMainAdminStore()
 const {nick} = useRoute().params
 const authorizationInfo = reactive({

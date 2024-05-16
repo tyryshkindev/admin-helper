@@ -1,11 +1,11 @@
 <template>
     <div class="pt-2">
         <p class="text-lg pb-2">Панель управления</p>
-        <div class="flex justify-start">
+        <div class="grid grid-cols-3 gap-2 lg:flex lg:justify-start">
             <template v-for="punishment in formattedTypes" :key="punishment.id">
                 <PlayerPunishmentButton 
                     :buttonText="punishment" 
-                    class="mr-3" 
+                    class="mr-3 truncate" 
                     :class="{'!bg-red-300': isPunishmentActive(punishment)}"
                     @click="handlePunishmentChoice(punishment)" 
                 />
@@ -18,11 +18,10 @@
             :parentDuration="punishmentDuration"
             @update:punishmentReason="setPunishmentReason"
             @update:punishmentDuration="setPunishmentDuration"
-            @update:wrongDuration="setWrongDuration"
             @punishPlayer="handlePunishPlayer"
         />
-        <PunishPlayerButton 
-            v-if="isAllowedToPunishPlayer && !isDurationWrong" 
+        <PlayerPunishButton 
+            v-if="isAllowedToPunishPlayer" 
             @click="handlePunishPlayer"
             class="mt-2"
         />
@@ -31,7 +30,6 @@
 
 <script setup>
 import {punishmentTypes} from '@/constants/index'
-import {punishPlayer} from '@/utils/punishPlayer'
 const props = defineProps({
     playerID: {
         type: Number,
@@ -49,10 +47,9 @@ const emit = defineEmits({
 const mainStore = useMainAdminStore()
 const punishmentType = ref('')
 const punishmentReason = ref('')
-const punishmentDuration = ref('')
+const punishmentDuration = ref(0)
 const isAllowedToEnterReason = ref(false)
 const isAllowedToPunishPlayer = ref(false)
-const isDurationWrong = ref(false)
 const formattedTypes = computed(() => {
     const allowedTyperFor2Lvl = {
         'rmute': 'Блокировка репорта',
@@ -79,10 +76,7 @@ function handlePunishmentChoice(type) {
     }
     setPunishmentReason('')
     setPunishmentDuration(0)
-    isAllowedToPunishPlayer.value = false
-}
-function setWrongDuration(newValue) {
-    isDurationWrong.value = newValue
+    togglePermisionToPunishPlayer(false)
 }
 function togglePermisionToPunishPlayer(newValue) {
     isAllowedToPunishPlayer.value = newValue

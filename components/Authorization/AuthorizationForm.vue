@@ -1,22 +1,22 @@
 <template>
     <div>
-        <LoadingSpinner v-show="isAuthorizationInProgress" />
-        <form v-show="!isAuthorizationInProgress" @submit.prevent class="py-8 px-5 bg-slate-700 rounded-lg">
+        <UILoadingSpinner v-show="isAuthorizationInProgress" />
+        <form v-show="!isAuthorizationInProgress" class="py-8 px-5 bg-slate-700 rounded-lg" id="authorization">
             <h2 class="text-white">Введите никнейм и пароль, как в игре</h2>
             <UIInputField 
-            :inputValue="nickName" 
-            @update:inputValue="setNickName" 
-            @keydown.enter="handleAuthorize"
-            :placeholder="'Nick_Name'" 
+                :inputValue="nickName" 
+                @update:inputValue="setNickName" 
+                @keydown.enter="handleAuthorize"
+                :placeholder="'Nick_Name'" 
             />
             <UIInputField 
-            :inputValue="password" 
-            @update:inputValue="setPassword" 
-            @keydown.enter="handleAuthorize"
-            :type="'password'" 
-            :placeholder="'Пароль'" 
+                :inputValue="password" 
+                @update:inputValue="setPassword" 
+                @keydown.enter="handleAuthorize"
+                :type="'password'" 
+                :placeholder="'Пароль'" 
             />
-            <ErrorMessage v-show="isAuthDataWrong" :message="wrongDataMessage" />
+            <AppErrorMessage v-show="isAuthDataWrong" :message="wrongDataMessage" />
             <footer class="text-right mt-4">
                 <AuthorizationButton @click="handleAuthorize" class="bg-cyan-400 hover:bg-cyan-600 p-2" />
             </footer>
@@ -25,7 +25,6 @@
 </template>
 
 <script setup>
-import {authenticateUser} from '@/utils/authenticateUser'
 const emit = defineEmits({
     authorization: null
 })

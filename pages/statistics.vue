@@ -1,18 +1,18 @@
 <template>
     <div class="container pt-12 mx-auto text-white">
         <div class="flex justify-between">
-            <ServerNumber class="py-4"/>
-            <LogoutButton />
+            <AppServerNumber class="py-4"/>
+            <StatisticsLogoutButton />
         </div>
         <div>
             <h2 class="font-bold text-2xl py-4">Администратор {{ nicknameWithoutUnderscore }}</h2>
             <div class="flex">
-                <ProfileDayRate 
+                <StatisticsDayRate 
                     :rateInfo="todayRateInfo" 
                     :serverInfo="serverInfo || []"
                     class="pr-4"
                 />
-                <ProfileTableRate 
+                <StatisticsTableRate 
                     :rateInfo="rateInfo" 
                     :serverInfo="serverInfo || []" 
                 />
@@ -23,9 +23,10 @@
 </template>
 
 <script setup>
-import { getServerInfo } from '@/utils/getServerInfo'
+useHead({
+    title: 'Статистика администратора'
+})
 const mainStore = useMainAdminStore()
-
 const rateInfo = mainStore.user.rate
 const todayRateInfo = rateInfo[rateInfo.length - 1]
 const authorizationInfo = reactive({

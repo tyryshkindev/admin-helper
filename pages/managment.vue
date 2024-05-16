@@ -1,6 +1,6 @@
 <template>
-    <div v-if="isInfoAvailable" class="container mx-auto pt-4 text-white">
-        <ServerNumber />
+    <div v-if="isInfoAvailable" class="container mx-auto p-4 text-white">
+        <AppServerNumber />
         <h2 class="text-2xl font-bold pt-4">Управление серверной информацией</h2>
         <ManagmentServerPermissions 
             :serverPermissions="serverInfo.allowedRate"
@@ -17,12 +17,13 @@
         />
         <p v-if="isServerUpdated" class="text-green-500">Информация о сервере успешно обновлена!</p>
     </div>
-    <ErrorMessage v-else :message="'Получение информации о сервере неудачно.'" />
+    <AppErrorMessage v-else :message="'Получение информации о сервере неудачно.'" />
 </template>
 
 <script setup>
-import { getServerInfo } from '@/utils/getServerInfo'
-import { modifyServerInfo } from '@/utils/modifyServerInfo'
+useHead({
+    title: 'Управление сервером'
+})
 const mainStore = useMainAdminStore()
 const authorizationInfo = reactive({
     password: mainStore.user.password,

@@ -5,3 +5,8 @@ import AdminsSearchForm from '~/components/AdminsSearchForm.vue';
         <SearchForm :role="'admin'" />
     </div>
 </template>
+<script setup>
+useHead({
+    title: 'Мониторинг администрации'
+})
+</script>
