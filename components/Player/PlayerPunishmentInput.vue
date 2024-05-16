@@ -8,15 +8,6 @@
             @keydown.enter="handleReasonEnter"
         />
         <br>
-        <!-- <UIInputField 
-            v-if="punishmentReason.length >= 3 && punishmentType !== 'warn'"
-            :inputValue="punishmentDuration.value || ''"
-            :placeholder="'Введите длительность наказания'"
-            @update:inputValue="setPunishmentDuration"
-            id="duration__input"
-            class="md:max-w-[30%]"
-            @keydown.enter="handleDurationEnter"
-        /> -->
         <UIInputNumber 
             v-if="punishmentReason.length >= 3 && punishmentType !== 'warn'"
             :inputValue="punishmentDuration"
