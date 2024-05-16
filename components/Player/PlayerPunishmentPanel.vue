@@ -18,11 +18,10 @@
             :parentDuration="punishmentDuration"
             @update:punishmentReason="setPunishmentReason"
             @update:punishmentDuration="setPunishmentDuration"
-            @update:wrongDuration="setWrongDuration"
             @punishPlayer="handlePunishPlayer"
         />
         <PlayerPunishButton 
-            v-if="isAllowedToPunishPlayer && !isDurationWrong" 
+            v-if="isAllowedToPunishPlayer" 
             @click="handlePunishPlayer"
             class="mt-2"
         />
@@ -48,10 +47,9 @@ const emit = defineEmits({
 const mainStore = useMainAdminStore()
 const punishmentType = ref('')
 const punishmentReason = ref('')
-const punishmentDuration = ref('')
+const punishmentDuration = ref(0)
 const isAllowedToEnterReason = ref(false)
 const isAllowedToPunishPlayer = ref(false)
-const isDurationWrong = ref(false)
 const formattedTypes = computed(() => {
     const allowedTyperFor2Lvl = {
         'rmute': 'Блокировка репорта',
@@ -78,10 +76,7 @@ function handlePunishmentChoice(type) {
     }
     setPunishmentReason('')
     setPunishmentDuration(0)
-    isAllowedToPunishPlayer.value = false
-}
-function setWrongDuration(newValue) {
-    isDurationWrong.value = newValue
+    togglePermisionToPunishPlayer(false)
 }
 function togglePermisionToPunishPlayer(newValue) {
     isAllowedToPunishPlayer.value = newValue

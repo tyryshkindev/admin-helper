@@ -2,6 +2,7 @@
     <input
         type="number"
         :value="inputValue"
+        :placeholder="placeholder"
         @input="handleInput"
         class="text-black max-w-16 rounded pl-1 mt-1 bg-slate-300"
         min="0"
@@ -16,15 +17,19 @@ const props = defineProps({
     }, 
     assignedValue: {
         type: String,
+    },
+    placeholder: {
+        type: String
     }
 })
-const {inputValue, assignedValue} = toRefs(props)
+const {inputValue, assignedValue, placeholder} = toRefs(props)
 const emit = defineEmits({
     'inputChange': null
 })
 function handleInput(event) {
-    Number(event.target.value)
-    ? emit('inputChange', {newValue: Number(event.target.value), rateName: assignedValue.value})
+    const newInputValue = Number(event.target.value)
+    newInputValue || newInputValue === 0
+    ? emit('inputChange', {newValue: newInputValue, rateName: assignedValue.value})
     : null
 }
 </script>
