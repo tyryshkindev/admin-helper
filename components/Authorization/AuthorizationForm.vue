@@ -1,24 +1,25 @@
 <template>
     <div>
         <UILoadingSpinner v-show="isAuthorizationInProgress" />
-        <form v-show="!isAuthorizationInProgress" class="py-8 px-5 bg-slate-700 rounded-lg" id="authorization">
+        <form v-show="!isAuthorizationInProgress" id="authorization" class="py-8 px-5 bg-slate-700 rounded-lg">
             <h2 class="text-white">Введите никнейм и пароль, как в игре</h2>
             <UIInputField 
                 :inputValue="nickName" 
+                :placeholder="'Nick_Name'" 
                 @update:inputValue="setNickName" 
                 @keydown.enter="handleAuthorize"
-                :placeholder="'Nick_Name'" 
             />
             <UIInputField 
                 :inputValue="password" 
+                :type="'password'" 
+                :placeholder="'Пароль'"
                 @update:inputValue="setPassword" 
                 @keydown.enter="handleAuthorize"
-                :type="'password'" 
-                :placeholder="'Пароль'" 
+                 
             />
             <AppErrorMessage v-show="isAuthDataWrong" :message="wrongDataMessage" />
             <footer class="text-right mt-4">
-                <AuthorizationButton @click="handleAuthorize" class="bg-cyan-400 hover:bg-cyan-600 p-2" />
+                <AuthorizationButton class="bg-cyan-400 hover:bg-cyan-600 p-2" @click="handleAuthorize" />
             </footer>
         </form>
     </div>

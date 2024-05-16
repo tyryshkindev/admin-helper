@@ -22,7 +22,7 @@ const checkPath = (path, routes) => routes.some(route => path === route)
 const checkPlayersPath =  path => path.includes('/players')
 const checkSearchedPath = path => checkPlayersPath (path) || path.includes('/monitoring')
 
-export default defineNuxtRouteMiddleware(async (to, from) => {
+export default defineNuxtRouteMiddleware(async to => {
     const mainStore = await useMainAdminStore()
     const authorized = mainStore.isUserAuthorized
     if (authorized) {
@@ -43,6 +43,7 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
                 if (!checkPath(to.path, deputyAllowedRoutes) && !checkSearchedPath(to.path)) {
                     return navigateTo('/monitoring')
                 }
+                break
             case '6': 
                 if (!checkPath(to.path, headAllowedRoutes) && !checkSearchedPath(to.path)) {
                     return navigateTo('/managment')

@@ -1,10 +1,12 @@
 <template>
-    <HeaderMain>&nbsp;</HeaderMain>
-    <AppBackgroundImage class="flex align-middle">
-        <div class="container mx-auto p-4 flex justify-center items-center text-center">
-            <AuthorizationForm @authorization="authorizeUser" />
-        </div>
-    </AppBackgroundImage>
+    <div>
+        <HeaderMain>&nbsp;</HeaderMain>
+        <AppBackgroundImage class="flex align-middle">
+            <div class="container mx-auto p-4 flex justify-center items-center text-center">
+                <AuthorizationForm @authorization="authorizeUser" />
+            </div>
+        </AppBackgroundImage>
+    </div>
 </template>
 
 <script setup>

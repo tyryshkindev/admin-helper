@@ -12,7 +12,8 @@ const props = defineProps({
         type: Boolean
     },
     assignedValue: {
-        type: String
+        type: String,
+        default: ''
     }
 })
 const {isCheckboxActive, assignedValue} = toRefs(props)
