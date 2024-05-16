@@ -21,8 +21,3 @@
             </div>
         </div>
 </template>
-<script setup>
-useHead({
-    title: 'Помощник для администрации'
-})
-</script>

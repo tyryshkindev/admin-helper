@@ -3,18 +3,18 @@
         <UIInputField 
             :placeholder="'Введите причину наказания'" 
             :inputValue="punishmentReason.value || ''"
-            @update:inputValue="setPunishmentReason"
             class="md:max-w-[30%]"
+            @update:inputValue="setPunishmentReason"
             @keydown.enter="handleReasonEnter"
         />
         <br>
         <UIInputNumber 
             v-if="punishmentReason.length >= 3 && punishmentType !== 'warn'"
+            id="duration__input"
             :inputValue="punishmentDuration"
             :placeholder="'Введите длительность наказания'"
-            @inputChange="setPunishmentDuration"
-            id="duration__input"
             class="!max-w-96 !bg-white p-2"
+            @inputChange="setPunishmentDuration"
             @keydown.enter="handleDurationEnter"
         />
     </div>
@@ -23,7 +23,8 @@
 <script setup>
 const props = defineProps({
     punishmentType: {
-        type: String
+        type: String,
+        default: ''
     },
     parentReason: {
         type: String,

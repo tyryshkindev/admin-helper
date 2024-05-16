@@ -8,7 +8,8 @@
 <script setup>
 const props = defineProps({
     role: {
-        type: String
+        type: String,
+        default: ''
     }
 })
 const {role} = toRefs(props)

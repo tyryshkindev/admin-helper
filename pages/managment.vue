@@ -11,9 +11,9 @@
             @changeRate="changeRate"
         />
         <ManagmentSaveButton 
-            @click="handleSaveChanges"
-            :disabled="!isInfoChanged"
             class="mt-4"
+            :disabled="!isInfoChanged"
+            @click="handleSaveChanges"
         />
         <p v-if="isServerUpdated" class="text-green-500">Информация о сервере успешно обновлена!</p>
     </div>

@@ -1,6 +1,6 @@
 <template>
     <div v-for="(link, index) in links" :key="index" class="flex flex-col items-center mt-8 text-white">
-        <HeaderNavigationLink @click="handleLinkClick" :link="link" class="bg-white text-black" />
+        <HeaderNavigationLink :link="link" class="bg-white text-black" @click="handleLinkClick" />
     </div>
 </template>
 

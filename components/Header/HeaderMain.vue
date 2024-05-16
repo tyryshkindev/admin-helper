@@ -1,7 +1,7 @@
 <template>
     <header class="max-h-[6.5vh] bg-black">
         <nav class="container mx-auto p-3 flex justify-between">
-            <div @click="countHomeRoute" class="hover:cursor-pointer">
+            <div class="hover:cursor-pointer" @click="countHomeRoute">
                 <img src="../../public/hassle__logo.svg" alt="Hassle Logotype">
             </div>
             <template v-if="mainStore.isUserAuthorized">

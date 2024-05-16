@@ -1,10 +1,10 @@
 <template>
     <input 
-        :type="type"
         class="mt-3 w-full border border-solid border-teal-700 py-3 px-4 rounded"
-        @input="handleInput"
+        type="text"
         :value="inputValue"
         :placeholder="placeholder"
+        @input="handleInput"
     >
 </template>
 
@@ -14,16 +14,12 @@ const props = defineProps({
         type: String,
         required: true
     },
-    type: {
-        type: String,
-        default: 'text'
-    },
     placeholder: {
         type: String,
         default: ''
     }
 })
-const {inputValue, type, placeholder} = toRefs(props)
+const {inputValue, placeholder} = toRefs(props)
 
 const emit = defineEmits({
     'update:inputValue': null

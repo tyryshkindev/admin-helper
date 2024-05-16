@@ -22,8 +22,8 @@
         />
         <PlayerPunishButton 
             v-if="isAllowedToPunishPlayer" 
-            @click="handlePunishPlayer"
             class="mt-2"
+            @click="handlePunishPlayer"
         />
     </div>
 </template>
@@ -108,7 +108,7 @@ async function handlePunishPlayer() {
         "adminNick": mainStore.user.nickname,
         "reason": punishmentReason.value 
     }
-    if (punishmentType !== 'warn') {
+    if (punishmentType.value !== 'warn') {
         punishmentInfo.duration = punishmentDuration.value
     }
     const response = await punishPlayer(target, punishmentInfo)

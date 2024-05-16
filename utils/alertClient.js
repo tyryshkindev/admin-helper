@@ -1,5 +1,5 @@
 export const alertClient = (message) => {
-    if (process.client) {
+    if (import.meta.client) {
         alert(message)
     }
 }

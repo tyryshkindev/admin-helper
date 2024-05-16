@@ -1,11 +1,11 @@
 <template>
     <input
         type="number"
+        class="text-black max-w-16 rounded pl-1 mt-1 bg-slate-300"
+        min="0"
         :value="inputValue"
         :placeholder="placeholder"
         @input="handleInput"
-        class="text-black max-w-16 rounded pl-1 mt-1 bg-slate-300"
-        min="0"
     >
 </template>
 
@@ -17,9 +17,11 @@ const props = defineProps({
     }, 
     assignedValue: {
         type: String,
+        default: ''
     },
     placeholder: {
-        type: String
+        type: String,
+        default: ''
     }
 })
 const {inputValue, assignedValue, placeholder} = toRefs(props)

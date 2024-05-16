@@ -6,14 +6,14 @@
             </label>
             <div class="flex">
                 <UIInputField 
-                :inputValue="searchedTarget" 
-                @update:inputValue="setSearchedTarget" 
-                @keydown.enter="searchTarget"
-                :placeholder="`Введите ник ${formattedRole}`"
                 id="search__input"
                 class="text-black flex-1 my-3 py-2"
+                :inputValue="searchedTarget" 
+                :placeholder="`Введите ник ${formattedRole}`"
+                @update:inputValue="setSearchedTarget" 
+                @keydown.enter="searchTarget"
                 />
-                <SearchFormSubmitButton :isActive="isTargetReachable" @click="searchTarget" class="mx-2" />
+                <SearchFormSubmitButton :isActive="isTargetReachable"  class="mx-2" @click="searchTarget" />
             </div>
         </div>            
     </div>

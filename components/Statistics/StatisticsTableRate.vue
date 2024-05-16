@@ -75,7 +75,7 @@ function displayRate(day, rateName){
 }
 // если все необходимые значение из объекта day больше или равно minimumDailyRate - применять зеленый бекграунд
 function paintBackgroundFromRateValue(day) {
-    const relevantRates = Object.keys(day).filter(rateName => minimumDailyRate.value.hasOwnProperty(rateName))
+    const relevantRates = Object.keys(day).filter(rateName => Object.hasOwn(minimumDailyRate.value, rateName))
     return relevantRates.every(rateName => day[rateName] >= minimumDailyRate.value[rateName]) ? 'bg-green-400' : 'bg-red-300'
 }
 </script>

@@ -15,10 +15,12 @@
 <script setup>
 const props = defineProps({
     role: {
-        type: String
+        type: String,
+        default: 'admin'
     },
     minimumRate: {
-        type: Object
+        type: Object,
+        default: () => {}
     }
 })
 const {role, minimumRate} = toRefs(props)
