@@ -3,11 +3,11 @@
         <AppServerNumber />
         <h2 class="text-2xl font-bold pt-4">Управление серверной информацией</h2>
         <ManagmentServerPermissions 
-            :serverPermissions="serverInfo.allowedRate"
+            :serverPermissions="serverInfo.value.allowedRate"
             @changePermissions="changePermissions"
         />
         <ManagmentMinimumRate 
-            :minimumRate="serverInfo.minimumDailyRate"
+            :minimumRate="serverInfo.value.minimumDailyRate"
             @changeRate="changeRate"
         />
         <ManagmentSaveButton 
@@ -31,12 +31,14 @@ const authorizationInfo = reactive({
 })
 const isInfoChanged = ref(false)
 const isServerUpdated = ref(false)
-let serverInfo = await getServerInfo(authorizationInfo)
+const serverInfo = reactive({
+    value: await getServerInfo(authorizationInfo)
+})
 const modifiedServerInfo = reactive({})
-modifiedServerInfo.value = JSON.parse(JSON.stringify(serverInfo))
-const isInfoAvailable = computed(() => !!Object.keys(serverInfo).length)
+modifiedServerInfo.value = JSON.parse(JSON.stringify(serverInfo.value))
+const isInfoAvailable = computed(() => !!Object.keys(serverInfo.value).length)
 function compareStates() {
-    isInfoChanged.value = JSON.stringify(serverInfo) !== JSON.stringify(modifiedServerInfo.value)
+    isInfoChanged.value = JSON.stringify(serverInfo.value) !== JSON.stringify(modifiedServerInfo.value)
 }
 function changePermissions(newPermissions) {
     modifiedServerInfo.value.allowedRate = newPermissions
@@ -47,10 +49,10 @@ function changeRate(newRate) {
     compareStates()
 }
 async function updateServer() {
-    isServerUpdated.value = true
-    serverInfo = await getServerInfo(authorizationInfo)
-    modifiedServerInfo.value = JSON.parse(JSON.stringify(serverInfo))
+    serverInfo.value = await getServerInfo(authorizationInfo)
+    modifiedServerInfo.value = JSON.parse(JSON.stringify(serverInfo.value))
     compareStates()
+    isServerUpdated.value = true
     await new Promise(resolve => setTimeout(resolve, 5000))
     isServerUpdated.value = false
 }
