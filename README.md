@@ -1,75 +1,58 @@
-# Nuxt 3 Minimal Starter
-
-Look at the [Nuxt 3 documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.
-
-## Setup
-
-Make sure to install the dependencies:
-
+# Admins Helper
+## English
+### Project setup
+Copy this repository into an empty folder:
 ```bash
-# npm
-npm install
-
-# pnpm
-pnpm install
-
-# yarn
-yarn install
-
-# bun
-bun install
+git clone https://github.com/tyryshkindev/admin-helper
 ```
-
-## Development Server
-
-Start the development server on `http://localhost:3000`:
-
+Install the dependencies:
 ```bash
-# npm
-npm run dev
-
-# pnpm
-pnpm run dev
-
-# yarn
-yarn dev
-
-# bun
-bun run dev
+npm i
 ```
-
-## Production
-
-Build the application for production:
-
+Run the project:
 ```bash
-# npm
-npm run build
-
-# pnpm
-pnpm run build
-
-# yarn
-yarn build
-
-# bun
-bun run build
-```
-
-Locally preview production build:
-
-```bash
-# npm
 npm run preview
-
-# pnpm
-pnpm run preview
-
-# yarn
-yarn preview
-
-# bun
-bun run preview
 ```
+### Server setup
+Copy the server repository into another empty folder
+```bash
+git clone https://github.com/tyryshkindev/admin-helper-server
+```
+Install the dependencies:
+```bash
+npm i
+```
+Run the server:
+```bash
+npx json-server --port 4000 server.json
+```
+Use the nickname and password from "admins" field to authorize 
 
-Check out the [deployment documentation](https://nuxt.com/docs/getting-started/deployment) for more information.
+## Russian
+### Настройка проекта
+Скопируйте данный репозиторий в свободную папку:
+```bash
+git clone https://github.com/tyryshkindev/admin-helper
+```
+Установите зависимости:
+```bash
+npm i
+```
+Запустите проект:
+```bash
+npm run preview
+```
+### Настройка сервер
+Скопируйте репозиторий сервера в другую свободную папку
+```bash
+git clone https://github.com/tyryshkindev/admin-helper-server
+```
+Установите зависимости:
+```bash
+npm i
+```
+Запустите сервер:
+```bash
+npx json-server --port 4000 server.json
+```
+Используйте никнейм и пароль из поля "admins" чтобы авторизоваться
