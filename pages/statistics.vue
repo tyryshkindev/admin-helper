@@ -1,12 +1,12 @@
 <template>
-    <div class="container pt-12 mx-auto text-white">
+    <div class="container mx-auto text-white">
         <div class="flex justify-between">
             <AppServerNumber class="py-4"/>
             <StatisticsLogoutButton />
         </div>
         <div>
             <h2 class="font-bold text-2xl py-4">Администратор {{ nicknameWithoutUnderscore }}</h2>
-            <div class="flex">
+            <div class="lg:flex">
                 <StatisticsDayRate 
                     :rateInfo="todayRateInfo" 
                     :serverInfo="serverInfo || []"

@@ -2,7 +2,9 @@
     <div>
         <HeaderMain />
         <AppBackgroundImage>
-        <slot/>
+            <div class="!pt-[60px]">
+                <slot />
+            </div>
         </AppBackgroundImage>
     </div>
 </template>

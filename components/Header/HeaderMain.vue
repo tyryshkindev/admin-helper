@@ -1,5 +1,5 @@
 <template>
-    <header class="max-h-[6.5vh] bg-black">
+    <header class="max-h-[60px] fixed w-full bg-black">
         <nav class="container mx-auto p-3 flex justify-between">
             <div class="hover:cursor-pointer" @click="countHomeRoute">
                 <img src="../../public/hassle__logo.svg" alt="Hassle Logotype">
