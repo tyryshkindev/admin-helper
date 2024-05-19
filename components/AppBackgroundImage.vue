@@ -1,5 +1,5 @@
 <template>
-    <div class="page__content bg-cover bg-no-repeat min-h-[93.5vh] h-px" >
+    <div class="page__content bg-cover bg-no-repeat h-screen w-auto" >
         <slot />
     </div>
 </template>
