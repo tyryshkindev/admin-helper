@@ -1,6 +1,6 @@
 <template>
-    <div class="py-4 flex">
-        <div class="px-8">
+    <div class="flex">
+        <div>
             <label for="search__input">
                 <p>Введите ник-нейм чтобы найти {{ formattedRole }}</p>
             </label>
@@ -27,6 +27,9 @@ const props = defineProps({
     }
 })
 const {role} = toRefs(props)
+const emit = defineEmits({
+    'targetSearch': null
+})
 const formattedRole = computed(() => {
     const roles = {
         'player': 'игрока',
@@ -45,10 +48,11 @@ const searchedTarget = ref('')
 function setSearchedTarget(newValue) {
     searchedTarget.value = newValue
 }
-function searchTarget () {
+function searchTarget() {
     if (isTargetReachable.value) {
         const nick = searchedTarget.value
         setSearchedTarget('')
+        emit('targetSearch', nick)
         return navigateTo(`/${formattedRoute.value}/${nick}`)
     }
 }
