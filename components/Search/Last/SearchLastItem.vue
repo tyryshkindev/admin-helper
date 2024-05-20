@@ -1,6 +1,6 @@
 <template>
     <button type="button" @click="redirectUser">
-        <div class="bg-cyan-500 hover:bg-cyan-600 p-2 rounded-lg">
+        <div class="bg-green-500 hover:bg-green-600 p-2 rounded-lg">
             {{ targetNickname }}
         </div>
     </button>

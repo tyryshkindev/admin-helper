@@ -1,9 +1,9 @@
 <template>
     <div>
         <h2 class="font-bold text-lg">Последние просмотренные:</h2>
-        <template v-for="targetNickname in lastSearched" :key="targetNickname.id">
-            <SearchLastItem :targetNickname = "targetNickname" :requesterRole="role" />
-        </template>
+        <div v-for="targetNickname in lastSearched" :key="targetNickname.id">
+            <SearchLastItem :targetNickname = "targetNickname" :requesterRole="role" class="pt-4" />
+        </div>
     </div>
 </template>
 
@@ -19,5 +19,4 @@ const lastSearchedStore = useLastSearchedStore()
 const lastSearched = computed(() => {
     return lastSearchedStore.lastSearchedTargets[role.value]
 })
-console.log(lastSearchedStore.lastSearchedTargets)
 </script>

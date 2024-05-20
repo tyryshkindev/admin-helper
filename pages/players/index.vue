@@ -22,6 +22,6 @@ function saveSearchQuery(nickname) {
     lastSearchedStore.updateLastSearchedTargets(role.value, nickname)
 }
 const isLogAvailable = computed(() => {
-    return !!Object.keys(lastSearchedStore.lastSearchedTargets[role.value]).length
+    return !!lastSearchedStore.lastSearchedTargets[role.value].size
 })
 </script>
