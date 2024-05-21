@@ -1,37 +1,51 @@
 <template>
-    <div v-if="isPlayerInfoAvailable" class="container p-4 mx-auto text-white">
-        <AppServerNumber />
-        <div class="md:py-4 md:flex">
-            <h2 class="font-bold text-2xl">Аккаунт: {{ playerInfo.value.nickname }}</h2>
-            <p v-if="playerInfo.value.isPlayerBanned" class="font-bold text-xl text-red-500 md:pl-2 md:pt-1">ЗАБЛОКИРОВАН</p>
+    <UILoadingSpinner v-show="isServerRequestInProgress" />
+    <div v-show="!isServerRequestInProgress">
+        <div v-if="isPlayerInfoAvailable" class="container p-4 mx-auto text-white">
+            <AppServerNumber />
+            <div class="md:py-4 md:flex">
+                <h2 class="font-bold text-2xl">Аккаунт: {{ playerInfo.value.nickname }}</h2>
+                <p v-if="playerInfo.value.isPlayerBanned" class="font-bold text-xl text-red-500 md:pl-2 md:pt-1">
+                    ЗАБЛОКИРОВАН
+                </p>
+            </div>
+            <p>Игровой уровень: {{ playerInfo.value.lvl }}</p>
+            <p>Организация: {{ playerInfo.value.fraction || 'Отсутствует' }}</p>
+            <p>Ранг: {{ playerInfo.value.rank || 'Отсутствует' }}</p>
+            <PlayerAlist :alist="playerInfo.value.alist || null" />
+            <PlayerPunishmentPanel 
+                v-if="!playerInfo.value.isPlayerBanned" 
+                :playerNickname="playerInfo.value.nickname"
+                :playerID="Number(playerInfo.value.id)" @alistUpdated="alistChange" />
         </div>
-        <p>Игровой уровень: {{ playerInfo.value.lvl }}</p>
-        <p>Организация: {{ playerInfo.value.fraction || 'Отсутствует' }}</p>
-        <p>Ранг: {{ playerInfo.value.rank || 'Отсутствует' }}</p>
-        <PlayerAlist :alist="playerInfo.value.alist || null" />
-        <PlayerPunishmentPanel 
-            v-if="!playerInfo.value.isPlayerBanned" 
-            :playerNickname="playerInfo.value.nickname"
-            :playerID="Number(playerInfo.value.id)"
-            @alistUpdated="alistChange"
+        <SearchWrongMessage v-else :role="'player'" />
+        <ModalServerError 
+            :isModalOpened="isServerRequestFailed" 
+            @closeModal="closeModalWindow" 
         />
     </div>
-    <SearchWrongMessage v-else :role="'player'"/>
 </template>
 
 <script setup>
 const playerInfo = reactive({})
 const {nick} = useRoute().params
+const isServerRequestInProgress = ref(false)
+const isServerRequestFailed = ref(false)
 const mainStore = useMainAdminStore()
 async function getPlayerInfoFromServer() {
+    isServerRequestInProgress.value = true
     const requester = {
         nickname: mainStore.user.nickname,
         password: mainStore.user.password
     }
     const responsePlayerInfo = await getPlayerInfo(nick, requester)
-    if (responsePlayerInfo) {
-        playerInfo.value = responsePlayerInfo
-    }
+    typeof responsePlayerInfo === 'number'
+    ? isServerRequestFailed.value = true
+    : playerInfo.value = responsePlayerInfo
+    isServerRequestInProgress.value = false
+}
+function closeModalWindow() {
+    isServerRequestFailed.value = false
 }
 function alistChange() {
     getPlayerInfoFromServer()

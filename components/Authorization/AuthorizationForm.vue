@@ -17,7 +17,8 @@
                 @keydown.enter="handleAuthorize"
                  
             />
-            <AppErrorMessage v-show="isAuthDataWrong" :message="wrongDataMessage" />
+            <AppErrorMessage v-show="isAuthDataWrong" :message="'Неверные данные для авторизации! Проверьте ник и пароль'" />
+            <ModalAuthorizationFailed :isModalOpened="isServerResponseFailed" @closeModal="toggleWrongServerResponse" />
             <footer class="text-right mt-4">
                 <AuthorizationButton class="bg-cyan-400 hover:bg-cyan-600 p-2" @click="handleAuthorize" />
             </footer>
@@ -31,46 +32,40 @@ const emit = defineEmits({
 })
 const nickName = ref('')
 const password = ref('')
-const wrongDataMessage = ref('')
 const isAuthDataWrong = ref(false)
 const isAuthorizationInProgress = ref(false)
+const isServerResponseFailed = ref(false)
 
-function changeVariableValue(target, newValue) {
-    target.value = newValue
-}
 function setNickName(newValue) {
-    changeVariableValue(nickName, newValue)
+    nickName.value = newValue
     toggleWrongAuthData()
 }
 function setPassword(newValue) {
-    changeVariableValue(password, newValue)
+    password.value = newValue
     toggleWrongAuthData()
 }
 function toggleWrongAuthData(newValue = false) {
-    changeVariableValue(isAuthDataWrong, newValue)
+    isAuthDataWrong.value = newValue
 }
-function setWrongDataMessage(newValue) {
-    changeVariableValue(wrongDataMessage, newValue)
+function toggleWrongServerResponse(newValue = false) {
+    isServerResponseFailed.value = newValue
 }
-function toggleAuthorizationSpinner(newValue = false) {
-    changeVariableValue(isAuthorizationInProgress, newValue)
+function resetInputFields() {
+    setNickName('')
+    setPassword('')
 }
 async function handleAuthorize() {
-    toggleAuthorizationSpinner(true)
+    isAuthorizationInProgress.value = true
     const newUserInfo = await authenticateUser({nickname: nickName.value, password: password.value})
     if (typeof newUserInfo === 'object') {
-        setNickName('')
-        setPassword('')
+        resetInputFields()
         emit('authorization', newUserInfo)
-        toggleAuthorizationSpinner()
     } else if (newUserInfo === 503){
-        toggleWrongAuthData(true)
-        setWrongDataMessage('Ошибка при попытке авторизации. Попробуйте позже')
-        toggleAuthorizationSpinner()
+        toggleWrongServerResponse(true)
+        resetInputFields()
     } else {
         toggleWrongAuthData(true)
-        setWrongDataMessage('Неверные данные для авторизации! Проверьте ник и пароль')
-        toggleAuthorizationSpinner()
     }
+    isAuthorizationInProgress.value = false
 }
 </script>
