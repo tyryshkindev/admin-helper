@@ -1,6 +1,6 @@
 <template>
-    <UILoadingSpinner v-if="isServerRequestInProgress" />
-    <div v-else>
+    <UILoadingSpinner v-show="isServerRequestInProgress" />
+    <div v-show="!isServerRequestInProgress">
         <div v-if="isPlayerInfoAvailable" class="container p-4 mx-auto text-white">
             <AppServerNumber />
             <div class="md:py-4 md:flex">
@@ -20,7 +20,6 @@
         </div>
         <SearchWrongMessage v-else :role="'player'" />
         <ModalServerError 
-            v-show="isServerRequestFailed" 
             :isModalOpened="isServerRequestFailed" 
             @closeModal="closeModalWindow" 
         />
@@ -40,9 +39,9 @@ async function getPlayerInfoFromServer() {
         password: mainStore.user.password
     }
     const responsePlayerInfo = await getPlayerInfo(nick, requester)
-    typeof responsePlayerInfo !== 'number'
-    ? playerInfo.value = responsePlayerInfo
-    : isServerRequestFailed.value = true
+    typeof responsePlayerInfo === 'number'
+    ? isServerRequestFailed.value = true
+    : playerInfo.value = responsePlayerInfo
     isServerRequestInProgress.value = false
 }
 function closeModalWindow() {
