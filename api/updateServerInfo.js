@@ -1,4 +1,3 @@
-import { alertClient } from '@/utils/alertClient'
 export const updateServerInfo = async (serverInfo) => {
     try {
         const {serverID, updatedInfo} = serverInfo
@@ -11,7 +10,6 @@ export const updateServerInfo = async (serverInfo) => {
         })
         return response
     } catch (err) {
-        alertClient('Обновление информации не удалось. Попробуйте позже')
         console.error(err)
         return 503
     }
