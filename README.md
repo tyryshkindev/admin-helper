@@ -11,6 +11,7 @@ npm i
 ```
 Run the project:
 ```bash
+npm run build
 npm run preview
 ```
 ### Server setup
@@ -40,6 +41,7 @@ npm i
 ```
 Запустите проект:
 ```bash
+npm run build
 npm run preview
 ```
 ### Настройка сервер
