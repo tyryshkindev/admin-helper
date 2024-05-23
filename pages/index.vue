@@ -1,5 +1,5 @@
 <template>
-        <div class="flex align-middle h-screen">
+        <div class="flex align-middle h-screen mt-[-60px]">
             <div class="container mx-auto p-4 flex flex-col justify-center items-center text-center text-white">
                 <h2 class="font-bold text-2xl">Помощник администрации HASSLE ONLINE</h2>
                 <div>

@@ -1,23 +1,37 @@
 <template>
-    <div v-if="isInfoAvailable" class="container mx-auto p-4 text-white">
-        <AppServerNumber />
-        <h2 class="text-2xl font-bold pt-4">Управление серверной информацией</h2>
-        <ManagmentServerPermissions 
-            :serverPermissions="serverInfo.value.allowedRate"
-            @changePermissions="changePermissions"
-        />
-        <ManagmentMinimumRate 
-            :minimumRate="serverInfo.value.minimumDailyRate"
-            @changeRate="changeRate"
-        />
-        <ManagmentSaveButton 
-            class="mt-4"
-            :disabled="!isInfoChanged"
-            @click="handleSaveChanges"
-        />
-        <p v-if="isServerUpdated" class="text-green-500">Информация о сервере успешно обновлена!</p>
+    <div class="container mx-auto p-4 text-white">
+        <div v-if="isInfoAvailable">
+            <AppServerNumber />
+            <h2 class="text-2xl font-bold pt-4">Управление серверной информацией</h2>
+            <ManagmentServerPermissions 
+                :serverPermissions="serverInfo.allowedRate"
+                @changePermissions="changePermissions"
+            />
+            <ManagmentMinimumRate 
+                :minimumRate="serverInfo.minimumDailyRate"
+                @changeRate="changeRate"
+            />
+            <ManagmentSaveButton 
+                class="mt-4"
+                :disabled="!isInfoChanged"
+                @click="saveChanges"
+            />
+            <p v-if="isServerUpdated" class="text-green-500">Информация о сервере успешно обновлена!</p>
+        </div>
+        <div v-else>
+            <AppErrorMessage v-show="!isGettingInfoInProgress" :message="'Получение информации о сервере неудачно.'" />
+        </div>
+        <UILoadingSpinner v-show="isGettingInfoInProgress" />
+        <ModalWindow :isOpened="isGettingInfoFailed" @closeModal="isGettingInfoFailed = false">
+            <template #header>
+                    <p class="text-lg font-bold">Ошибка при получении данных о сервере</p>
+                </template>
+                <template #body>
+                    <p>Невозможно получить / обновить данные о сервере. Возникла внутренняя ошибка</p>
+                </template>
+        </ModalWindow>
     </div>
-    <AppErrorMessage v-else :message="'Получение информации о сервере неудачно.'" />
+    
 </template>
 
 <script setup>
@@ -31,42 +45,61 @@ const authorizationInfo = reactive({
 })
 const isInfoChanged = ref(false)
 const isServerUpdated = ref(false)
-const serverInfo = reactive({
-    value: await getServerInfo(authorizationInfo)
-})
+const serverInfo = reactive({})
 const modifiedServerInfo = reactive({})
-modifiedServerInfo.value = JSON.parse(JSON.stringify(serverInfo.value))
-const isInfoAvailable = computed(() => !!Object.keys(serverInfo.value).length)
+const isInfoAvailable = computed(() => !!Object.keys(serverInfo).length)
+const isGettingInfoInProgress = ref(false)
+const isGettingInfoFailed = ref(false)
+
+onMounted(() => {
+    getInfo()
+})
+
+async function getInfo() {
+    toggleGettingInfo(true)
+    const response = await getServerInfo(authorizationInfo)
+    if (response && typeof response !== 'number') {
+        Object.assign(serverInfo, response)
+        Object.assign(modifiedServerInfo, JSON.parse(JSON.stringify(response)))
+    } else {
+        isGettingInfoFailed.value = true
+    }
+    toggleGettingInfo()
+}
+
+function toggleGettingInfo(newValue = false) {
+    isGettingInfoInProgress.value = newValue
+}
+
 function compareStates() {
-    isInfoChanged.value = JSON.stringify(serverInfo.value) !== JSON.stringify(modifiedServerInfo.value)
+    isInfoChanged.value = JSON.stringify(serverInfo) !== JSON.stringify(modifiedServerInfo)
 }
 function changePermissions(newPermissions) {
-    modifiedServerInfo.value.allowedRate = newPermissions
+    modifiedServerInfo.allowedRate = newPermissions
     compareStates()
 }
 function changeRate(newRate) {
-    modifiedServerInfo.value.minimumDailyRate = newRate
+    modifiedServerInfo.minimumDailyRate = newRate
     compareStates()
 }
-async function updateServer() {
-    serverInfo.value = await getServerInfo(authorizationInfo)
-    modifiedServerInfo.value = JSON.parse(JSON.stringify(serverInfo.value))
-    compareStates()
-    isServerUpdated.value = true
-    await new Promise(resolve => setTimeout(resolve, 5000))
-    isServerUpdated.value = false
-}
-async function handleSaveChanges() {
+async function saveChanges() {
     compareStates()
     if (isInfoChanged.value) {
         const serverData = {
             serverID: mainStore.user.serverID,
-            updatedInfo: modifiedServerInfo.value
+            updatedInfo: modifiedServerInfo
         }
-        const response = await modifyServerInfo(authorizationInfo, serverData)
-        response
-        ? updateServer()
-        : isServerUpdated.value = false
+        const serverResponse = await modifyServerInfo(authorizationInfo, serverData)
+        if (serverResponse) {
+            Object.assign(serverInfo, JSON.parse(JSON.stringify(serverResponse)))
+            Object.assign(modifiedServerInfo, JSON.parse(JSON.stringify(serverResponse)))
+            compareStates()
+            isServerUpdated.value = true
+            await new Promise(resolve => setTimeout(resolve, 5000))
+            isServerUpdated.value = false
+        } else {
+            isGettingInfoFailed.value = true
+        }
     }
 }
 </script>
