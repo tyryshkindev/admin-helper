@@ -6,12 +6,12 @@
             </label>
             <div class="flex">
                 <UIInputField 
-                id="search__input"
-                class="text-black flex-1 my-3 py-2"
-                :inputValue="searchedTarget" 
-                :placeholder="`Введите ник ${formattedRole}`"
-                @update:inputValue="setSearchedTarget" 
-                @keydown.enter="searchTarget"
+                    id="search__input"
+                    class="text-black flex-1 my-3 py-2"
+                    :inputValue="searchedTarget" 
+                    :placeholder="`Введите ник ${formattedRole}`"
+                    @update:inputValue="setSearchedTarget" 
+                    @keydown.enter="searchTarget"
                 />
                 <SearchFormSubmitButton :isActive="isTargetReachable"  class="mx-2" @click="searchTarget" />
             </div>
@@ -27,9 +27,12 @@ const props = defineProps({
     }
 })
 const {role} = toRefs(props)
+const searchedTarget = ref('')
 const emit = defineEmits({
     'targetSearch': null
 })
+
+const isTargetReachable = computed(() => searchedTarget.value.length >= 4)
 const formattedRole = computed(() => {
     const roles = {
         'player': 'игрока',
@@ -44,7 +47,7 @@ const formattedRoute = computed(() => {
     }
     return routes[role.value]
 })
-const searchedTarget = ref('')
+
 function setSearchedTarget(newValue) {
     searchedTarget.value = newValue
 }
@@ -56,7 +59,4 @@ function searchTarget() {
         return navigateTo(`/${formattedRoute.value}/${nick}`)
     }
 }
-const isTargetReachable = computed(() => {
-    return searchedTarget.value.length >= 4
-})
 </script>

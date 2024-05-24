@@ -14,6 +14,7 @@ const props = defineProps({
 })
 const {role} = toRefs(props)
 const remainingTime = ref(10)
+
 const formattedRole = computed(() => {
     const roles = {
         'admin': 'администратор',
@@ -28,16 +29,20 @@ const redirectRoute = computed(() => {
     }
     return routes[role.value]
 })
-function countdown() {
-    setInterval(() => {
-        remainingTime.value--
-    }, 1000)
-}
+
 const redirect = setTimeout(() => navigateTo(`${redirectRoute.value}`), 10000)
+
 onMounted(() => {
     countdown()
 })
 onBeforeUnmount(() => {
     clearTimeout(redirect)
 })
+
+function countdown() {
+    setInterval(() => {
+        remainingTime.value--
+    }, 1000)
+}
+
 </script>

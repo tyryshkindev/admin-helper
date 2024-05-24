@@ -44,12 +44,14 @@ const emit = defineEmits({
 })
 const punishmentReason = ref('')
 const punishmentDuration = ref(0)
+
 watch(parentReason, newValue => {
     punishmentReason.value = newValue
 })
 watch(parentDuration, newValue => {
     punishmentDuration.value = newValue
 })
+
 function handlePlayerPunishment() {
     emit('punishPlayer')
 }

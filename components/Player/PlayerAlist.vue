@@ -21,22 +21,23 @@ const props = defineProps({
     }
 })
 const {alist} = toRefs(props)
+
 function getPunishmentType(punishment) {
     return punishmentTypes[punishment]
 }
 function getTextMonth(id) {
     const months = [
-   'Января',
-   'Февраля',
-   'Марта',
-   'Апреля',
-   'Мая',
-   'Июня',
-   'Июля',
-   'Августа',
-   'Сентября',
-   'Ноября',
-   'Декабря',
+    'Января',
+    'Февраля',
+    'Марта',
+    'Апреля',
+    'Мая',
+    'Июня',
+    'Июля',
+    'Августа',
+    'Сентября',
+    'Ноября',
+    'Декабря',
     ]
     return months[id]
 }

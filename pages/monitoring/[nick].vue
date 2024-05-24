@@ -52,7 +52,6 @@ onMounted(async () => {
 
 function toggleWrongRequest(newValue = false) {
     isRequestFailed.value = newValue
-    console.log(!newValue)
     return !newValue ? navigateTo('/monitoring') : null
 }
 

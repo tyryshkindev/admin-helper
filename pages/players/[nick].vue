@@ -1,27 +1,31 @@
 <template>
-    <UILoadingSpinner v-show="isServerRequestInProgress" />
-    <div v-show="!isServerRequestInProgress">
-        <div v-if="isPlayerInfoAvailable" class="container p-4 mx-auto text-white">
+    <div class="container p-4 mx-auto text-white">
+        <UILoadingSpinner v-show="isServerRequestInProgress" />
+        <div v-if="isPlayerInfoAvailable">
             <AppServerNumber />
             <div class="md:py-4 md:flex">
-                <h2 class="font-bold text-2xl">Аккаунт: {{ playerInfo.value.nickname }}</h2>
-                <p v-if="playerInfo.value.isPlayerBanned" class="font-bold text-xl text-red-500 md:pl-2 md:pt-1">
+                <h2 class="font-bold text-2xl">Аккаунт: {{ playerInfo.nickname }}</h2>
+                <p v-if="playerInfo.isPlayerBanned" class="font-bold text-xl text-red-500 md:pl-2 md:pt-1">
                     ЗАБЛОКИРОВАН
                 </p>
             </div>
-            <p>Игровой уровень: {{ playerInfo.value.lvl }}</p>
-            <p>Организация: {{ playerInfo.value.fraction || 'Отсутствует' }}</p>
-            <p>Ранг: {{ playerInfo.value.rank || 'Отсутствует' }}</p>
-            <PlayerAlist :alist="playerInfo.value.alist || null" />
+            <p>Игровой уровень: {{ playerInfo.lvl }}</p>
+            <p>Организация: {{ playerInfo.fraction || 'Отсутствует' }}</p>
+            <p>Ранг: {{ playerInfo.rank || 'Отсутствует' }}</p>
+            <PlayerAlist :alist="playerInfo.alist || null" />
             <PlayerPunishmentPanel 
-                v-if="!playerInfo.value.isPlayerBanned" 
-                :playerNickname="playerInfo.value.nickname"
-                :playerID="Number(playerInfo.value.id)" @alistUpdated="alistChange" />
+                v-if="!playerInfo.isPlayerBanned" 
+                :playerNickname="playerInfo.nickname"
+                :playerID="Number(playerInfo.id)" 
+                @alistUpdated="getPlayerInfoFromServer" 
+            />
         </div>
-        <SearchWrongMessage v-else :role="'player'" />
+        <div v-else>
+            <SearchWrongMessage v-show="!isServerRequestInProgress && !isServerRequestFailed" :role="'player'" />
+        </div>
         <ModalServerError 
             :isModalOpened="isServerRequestFailed" 
-            @closeModal="closeModalWindow" 
+            @closeModal="toggleModalWindow" 
         />
     </div>
 </template>
@@ -32,6 +36,13 @@ const {nick} = useRoute().params
 const isServerRequestInProgress = ref(false)
 const isServerRequestFailed = ref(false)
 const mainStore = useMainAdminStore()
+
+const isPlayerInfoAvailable = computed(() => playerInfo && Object.keys(playerInfo).length)
+
+onMounted(() => {
+    getPlayerInfoFromServer()
+})
+
 async function getPlayerInfoFromServer() {
     isServerRequestInProgress.value = true
     const requester = {
@@ -39,21 +50,15 @@ async function getPlayerInfoFromServer() {
         password: mainStore.user.password
     }
     const responsePlayerInfo = await getPlayerInfo(nick, requester)
-    typeof responsePlayerInfo === 'number'
-    ? isServerRequestFailed.value = true
-    : playerInfo.value = responsePlayerInfo
+    if (responsePlayerInfo && typeof responsePlayerInfo !== 'number') {
+        Object.assign(playerInfo, responsePlayerInfo)
+    } else if (typeof responsePlayerInfo === 'number') {
+        toggleModalWindow(true)
+    }
     isServerRequestInProgress.value = false
 }
-function closeModalWindow() {
-    isServerRequestFailed.value = false
+function toggleModalWindow(newValue = false) {
+    isServerRequestFailed.value = newValue
+    return !newValue ? navigateTo('/players') : null
 }
-function alistChange() {
-    getPlayerInfoFromServer()
-}
-const isPlayerInfoAvailable = computed(() => {
-    return playerInfo.value && Object.keys(playerInfo.value).length
-})
-onMounted(() => {
-    getPlayerInfoFromServer()
-})
 </script>

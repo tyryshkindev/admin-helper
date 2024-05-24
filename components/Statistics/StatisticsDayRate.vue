@@ -34,11 +34,18 @@ const props = defineProps({
 const {rateInfo, serverInfo} = toRefs(props)
 const serverLimits = reactive({})
 const minimumDailyRate = reactive({})
+
+const isInfoAvailable = computed(() => {
+    return !!Object.keys(rateInfo.value).length && !!Object.keys(serverLimits).length 
+})
+const formattedTime = computed(() => formatDate(rateInfo.value.time))
+
 watch(serverInfo, newValue => {
     Object.assign(serverLimits, newValue.allowedRate)
     Object.assign(minimumDailyRate, newValue.minimumDailyRate)
 }, {deep: true})
-const getLabel = (key) => {
+
+function getLabel (key) {
   const labels = {
     pm: 'Ответов по репорту',
     z: 'Закрытых запросов',
@@ -47,16 +54,11 @@ const getLabel = (key) => {
     warn: 'Варнов',
     ban: 'Блокировок',
   }
-    return labels[key]
-    
+    return labels[key]   
 }
-const isInfoAvailable = computed(() => {
-    return !!Object.keys(rateInfo.value).length && !!Object.keys(serverLimits).length 
-})
 function isRateAllowedToDisplay(key) {
     return serverLimits && serverLimits[key]
 }
-const formattedTime = computed(() => formatDate(rateInfo.value.time))
 function isMinimumValueSpecified(rateName) {
     return !!minimumDailyRate[rateName]
 }
