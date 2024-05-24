@@ -8,9 +8,9 @@
             <thead>
                 <tr>
                     <th 
-                    v-for="rateName in displayedRates" 
-                    :key="rateName" 
-                    class="pr-3 border"
+                        v-for="rateName in displayedRates" 
+                        :key="rateName" 
+                        class="pr-3 border"
                     >
                     {{ rateName }}
                     </th>
@@ -19,17 +19,17 @@
             <tbody>
                 <tr v-for="day in filteredRateInfo" :key="day.id">
                     <td 
-                    v-for="rateName in displayedRates" 
-                    :key="rateName" 
-                    class="pr-3 border" 
-                    :class="paintBackgroundFromRateValue(day)"
+                        v-for="rateName in displayedRates" 
+                        :key="rateName" 
+                        class="pr-3 border" 
+                        :class="paintBackgroundFromRateValue(day)"
                     >
                     {{ displayRate(day, rateName) }}
                     </td>
                 </tr>
             </tbody>
         </table>
-        <AppErrorMessage v-else :message="'Не удалось получить данные о норме'" />
+        <AppErrorMessage v-else :message="'Данные о норме отсутствуют'" />
     </div>
 </template>
 
@@ -48,16 +48,18 @@ const props = defineProps({
 const {serverInfo, rateInfo} = toRefs(props)
 const minimumDailyRate = reactive({})
 const allowedRate = reactive({})
-if (serverInfo.value) {
-    minimumDailyRate.value = serverInfo.value.minimumDailyRate
-    allowedRate.value = serverInfo.value.allowedRate
-} 
+watch(serverInfo, newValue => {
+    Object.assign(minimumDailyRate, newValue.minimumDailyRate)
+    Object.assign(allowedRate, newValue.allowedRate)
+}, {deep: true})
 const isRateAvailable = computed(() => {
-    return !!(minimumDailyRate.value && allowedRate.value && rateInfo.value)
+    const ratesToCheck = [minimumDailyRate, allowedRate, rateInfo.value]
+    return ratesToCheck.every(obj => !!Object.keys(obj).length)
+    return !!(minimumDailyRate && allowedRate && rateInfo.value)
 })
 // показать все значения, которые разрешены для отображения
 const displayedRates = computed(() => {
-    return Object.keys(allowedRate.value).filter(rateName => allowedRate.value[rateName])
+    return Object.keys(allowedRate).filter(rateName => allowedRate[rateName])
 })
 // проверить разрешено ли отображать нужное значение
 const filteredRateInfo = computed(() => {
@@ -71,11 +73,11 @@ const filteredRateInfo = computed(() => {
 })
 // если время - отформатировать
 function displayRate(day, rateName){
-    return rateName !== 'time' ? day[rateName] : formatDate(day[rateName])
+    return rateName === 'time' ? formatDate(day[rateName]) : day[rateName]
 }
 // если все необходимые значение из объекта day больше или равно minimumDailyRate - применять зеленый бекграунд
 function paintBackgroundFromRateValue(day) {
-    const relevantRates = Object.keys(day).filter(rateName => Object.hasOwn(minimumDailyRate.value, rateName))
-    return relevantRates.every(rateName => day[rateName] >= minimumDailyRate.value[rateName]) ? 'bg-green-400' : 'bg-red-300'
+    const relevantRates = Object.keys(day).filter(rateName => Object.hasOwn(minimumDailyRate, rateName))
+    return relevantRates.every(rateName => day[rateName] >= minimumDailyRate[rateName]) ? 'bg-green-400' : 'bg-red-300'
 }
 </script>
