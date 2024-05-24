@@ -16,7 +16,7 @@
                 <Icon v-if="isRateCompleted('time')" name="i-heroicons-check-20-solid" />
             </div>
         </template>
-        <AppErrorMessage v-else :message="'Не удалось получить информацию о норме'"/>
+        <AppErrorMessage v-else :message="'Данные о норме отсутвуют'"/>
     </div>
 </template>
 

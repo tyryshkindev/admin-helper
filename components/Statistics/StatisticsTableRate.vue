@@ -29,7 +29,7 @@
                 </tr>
             </tbody>
         </table>
-        <AppErrorMessage v-else :message="'Не удалось получить данные о норме'" />
+        <AppErrorMessage v-else :message="'Данные о норме отсутствуют'" />
     </div>
 </template>
 
@@ -51,8 +51,10 @@ const allowedRate = reactive({})
 watch(serverInfo, newValue => {
     Object.assign(minimumDailyRate, newValue.minimumDailyRate)
     Object.assign(allowedRate, newValue.allowedRate)
-})
+}, {deep: true})
 const isRateAvailable = computed(() => {
+    const ratesToCheck = [minimumDailyRate, allowedRate, rateInfo.value]
+    return ratesToCheck.every(obj => !!Object.keys(obj).length)
     return !!(minimumDailyRate && allowedRate && rateInfo.value)
 })
 // показать все значения, которые разрешены для отображения

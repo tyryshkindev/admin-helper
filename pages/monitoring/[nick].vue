@@ -40,8 +40,8 @@ const isRequestFailed = ref(false)
 
 const isInfoAvailable = computed(() => !!Object.keys(adminInfo).length)
 const nicknameWithoutUnderscore = computed(() => adminInfo.nickname.split('_').join(' '))
-const rateInfo = computed(() => adminInfo.rate)
-const todayRateInfo = computed(() => rateInfo.value[rateInfo.value.length - 1])
+const rateInfo = computed(() => adminInfo.rate || [])
+const todayRateInfo = computed(() => rateInfo.value[rateInfo.value.length - 1] || [])
 
 onMounted(async () => {
     await loadAdminInfo()
@@ -63,7 +63,6 @@ function toggleRequestInProgress(newValue = false) {
 async function loadAdminInfo() {
     toggleRequestInProgress(true)
     const responseAdminInfo = await getAdminInfo(nick, authorizationInfo)
-    console.log(responseAdminInfo)
     if (responseAdminInfo && typeof responseAdminInfo !== 'number') {
         Object.assign(adminInfo, JSON.parse(JSON.stringify(responseAdminInfo)))
     } else if (typeof responseAdminInfo === 'number') {
