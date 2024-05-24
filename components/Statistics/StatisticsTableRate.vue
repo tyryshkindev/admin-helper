@@ -55,7 +55,6 @@ watch(serverInfo, newValue => {
 const isRateAvailable = computed(() => {
     const ratesToCheck = [minimumDailyRate, allowedRate, rateInfo.value]
     return ratesToCheck.every(obj => !!Object.keys(obj).length)
-    return !!(minimumDailyRate && allowedRate && rateInfo.value)
 })
 // показать все значения, которые разрешены для отображения
 const displayedRates = computed(() => {

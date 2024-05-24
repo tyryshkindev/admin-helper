@@ -1,7 +1,7 @@
 <template>
     <div>
         <p class="text-lg">Разрешения на просмотр статистики:</p>
-        <div v-for="(value, permissionName) in modifiedPermissions.value" :key="value + permissionName" class="flex">
+        <div v-for="(value, permissionName) in modifiedPermissions" :key="value + permissionName" class="flex">
             <label :for="permissionName">
                 <p>{{ formatPunishmentType(permissionName) }}:</p>
             </label>
@@ -27,23 +27,23 @@ const {serverPermissions} = toRefs(props)
 const emit = defineEmits({
     'changePermissions': null
 })
-const modifiedPermissions = reactive({})
-modifiedPermissions.value = JSON.parse(JSON.stringify(serverPermissions.value))
+const modifiedPermissions = reactive({...serverPermissions.value})
+
 function formatPunishmentType(type) {
     const punishments = {
-    'z': 'Закрытые запросы',
-    'pm': 'Ответы на репорт',
-    'mute': 'Блокировки чата',
-    'jail': 'Деморганы',
-    'warn': 'Предупреждения',
-    'ban': 'Блокировки',
-    'time': 'Отыгранное время'
+        'z': 'Закрытые запросы',
+        'pm': 'Ответы на репорт',
+        'mute': 'Блокировки чата',
+        'jail': 'Деморганы',
+        'warn': 'Предупреждения',
+        'ban': 'Блокировки',
+        'time': 'Отыгранное время'
     }
     return punishments[type]
 }
 function toggleCheckbox(updatedInfo) {
     const {newValue, permissionName} = updatedInfo
-    modifiedPermissions.value[permissionName] = newValue
-    emit('changePermissions', modifiedPermissions.value)
+    modifiedPermissions[permissionName] = newValue
+    emit('changePermissions', modifiedPermissions)
 }
 </script>

@@ -50,6 +50,7 @@ const punishmentReason = ref('')
 const punishmentDuration = ref(0)
 const isAllowedToEnterReason = ref(false)
 const isAllowedToPunishPlayer = ref(false)
+
 const formattedTypes = computed(() => {
     const allowedTyperFor2Lvl = {
         'rmute': 'Блокировка репорта',
@@ -60,6 +61,7 @@ const formattedTypes = computed(() => {
     ? allowedTyperFor2Lvl
     : punishmentTypes
 })
+
 function getPunishmentType(type) {
     return Object.keys(punishmentTypes).find(key => punishmentTypes[key] === type)
 }

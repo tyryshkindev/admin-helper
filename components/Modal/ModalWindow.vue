@@ -34,14 +34,7 @@ const {isOpened} = toRefs(props)
 const emit = defineEmits({
     'closeModal': null
 })
-function closeModal() {
-    emit('closeModal')
-}
-function handleKeydown(event) {
-    if (isOpened.value && event.key === 'Escape') {
-        closeModal()
-    }
-}
+
 onMounted(() => {
     if (import.meta.client) {
         document.addEventListener('keydown', handleKeydown)
@@ -52,6 +45,15 @@ onBeforeUnmount(() => {
         document.removeEventListener('keydown', handleKeydown)
     }
 })
+
+function closeModal() {
+    emit('closeModal')
+}
+function handleKeydown(event) {
+    if (isOpened.value && event.key === 'Escape') {
+        closeModal()
+    }
+}
 </script>
   
 <style>

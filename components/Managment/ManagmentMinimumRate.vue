@@ -27,8 +27,9 @@ const {minimumRate} = toRefs(props)
 const emit = defineEmits({
     'changeRate': null
 })
-const modifiedRate = reactive({})
-modifiedRate.value = JSON.parse(JSON.stringify(minimumRate.value))
+const modifiedRate = reactive({
+    value: JSON.parse(JSON.stringify(minimumRate.value))
+})
 function changeRating(updatedInfo) {
     const {newValue, rateName, role} = updatedInfo
     modifiedRate.value[role][rateName] = newValue
