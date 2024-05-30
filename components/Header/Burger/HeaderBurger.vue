@@ -6,7 +6,7 @@
             <span class="w-full h-0.5 bg-white absolute left-0 bottom-2"/>
         </div>
         <transition name="burger">
-            <div v-if="isBurgerOpen" class="fixed top-0 left-0 bottom-0 w-full max-w-screen-lg bg-black p-5 z-10 overflow-y-auto">
+            <div v-if="isBurgerOpen" class="fixed top-0 left-0 bottom-0 w-full max-w-screen-lg bg-black p-5 z-10 overflow-y-auto" @click.self="closeMenu">
                 <div class="w-10 h-10 absolute top-5 right-5 z-[11]" @click="closeMenu">
                     <span class="w-full h-[2px] bg-white absolute top-1/2 rotate-45 -translate-y-1/2"/>
                     <span class="w-full h-[2px] bg-white absolute top-1/2 -rotate-45 -translate-y-1/2"/>

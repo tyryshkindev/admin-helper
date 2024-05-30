@@ -1,24 +1,30 @@
 <template>
     <div class="container mx-auto text-white">
-        <div class="flex justify-between">
-            <AppServerNumber class="py-4"/>
-            <StatisticsLogoutButton />
-        </div>
-        <div>
-            <h2 class="font-bold text-2xl py-4">Администратор {{ nicknameWithoutUnderscore }}</h2>
-            <div class="lg:flex">
-                <StatisticsDayRate 
-                    :rateInfo="todayRateInfo" 
-                    :serverInfo="serverInfo || []"
-                    class="pr-4"
-                />
-                <StatisticsTableRate 
-                    :rateInfo="rateInfo" 
-                    :serverInfo="serverInfo || []" 
-                />
+        <div v-if="isInfoAvailable">
+            <div class="flex justify-between">
+                <AppServerNumber class="py-4" />
+                <StatisticsLogoutButton />
+            </div>
+            <div>
+                <h2 class="font-bold text-2xl py-4">Администратор {{ nicknameWithoutUnderscore }}</h2>
+                <div class="lg:flex">
+                    <StatisticsDayRate 
+                        :rateInfo="todayRateInfo" 
+                        :serverInfo="serverInfo" 
+                        class="pr-4" 
+                    />
+                    <StatisticsTableRate 
+                        :rateInfo="rateInfo" 
+                        :serverInfo="serverInfo" 
+                    />
+                </div>
             </div>
         </div>
-            
+        <div v-else>
+            <UILoadingSpinner v-show="isServerRequestInProgress" />
+            <ModalServerError :isModalOpened="isServerRequestFailed" @closeModal="toggleFailedRequest" />
+        </div>
+
     </div>
 </template>
 
@@ -27,28 +33,60 @@ useHead({
     title: 'Статистика администратора'
 })
 const mainStore = useMainAdminStore()
-const rateInfo = mainStore.user.rate
-const todayRateInfo = rateInfo[rateInfo.length - 1]
 const authorizationInfo = reactive({
     nickname: mainStore.user.nickname,
     password: mainStore.user.password,
     serverID: mainStore.user.serverID,
 })
-const serverInfo = await getServerInfo(authorizationInfo)
-serverInfo.minimumDailyRate = mainStore.user.adminLvl === '1' // если пользовать - помощник
-? serverInfo.minimumDailyRate.helper // выставляем минимальные требования как к помощнику
-: serverInfo.minimumDailyRate.admin // в ином случае требования как к администратору
-const allowedForHelpersRates = {
-    pm: serverInfo.allowedRate.pm,
-    z: serverInfo.allowedRate.z,
-    time: serverInfo.allowedRate.time
-}
-serverInfo.allowedRate = mainStore.user.adminLvl === '1' // если пользователь - помощник
-? serverInfo.allowedRate = allowedForHelpersRates // выставляем только нужные ему разрешенные требования 
-: serverInfo.allowedRate // оставляем все как есть
+const serverInfo = reactive({})
+const isServerRequestInProgress = ref(false)
+const isServerRequestFailed = ref(false)
+
+const rateInfo = computed(() => mainStore.user.rate || [])
+const todayRateInfo = computed(() => rateInfo.value[rateInfo.value.length - 1] || {})
 const nicknameWithoutUnderscore = computed(() => {
-    return mainStore.isUserAuthorized ? 
-    mainStore.user.nickname.split('_').join(' ')
-    : null
+    return mainStore.isUserAuthorized ?
+        mainStore.user.nickname.split('_').join(' ')
+        : null
 })
+const isInfoAvailable = computed(() => !!Object.keys(serverInfo).length)
+
+onMounted(() => {
+    getInfoAboutServer()
+})
+
+function toggleFailedRequest(newValue = false) {
+    isServerRequestFailed.value = newValue
+}
+
+function toggleRequestInProgress(newValue = false) {
+    isServerRequestInProgress.value = newValue
+}
+
+async function getInfoAboutServer() {
+    toggleRequestInProgress(true)
+    const serverResponse = await getServerInfo(authorizationInfo)
+    if (serverResponse && typeof serverResponse !== 'number') {
+        Object.assign(serverInfo, serverResponse)
+        modifyServerInfo()
+        console.log(serverInfo)
+    } else if (typeof serverResponse === 'number') {
+        toggleFailedRequest(true)
+    }
+    toggleRequestInProgress(false)
+}
+
+function modifyServerInfo() {
+    if (mainStore.user.adminLvl === '1') {
+        serverInfo.minimumDailyRate = serverInfo.minimumDailyRate.helper
+        const allowedForHelpersRates = {
+            pm: serverInfo.allowedRate.pm,
+            z: serverInfo.allowedRate.z,
+            time: serverInfo.allowedRate.time
+        }
+        serverInfo.allowedRate = allowedForHelpersRates
+    } else {
+        serverInfo.minimumDailyRate = serverInfo.minimumDailyRate.admin
+    }
+}
 </script>

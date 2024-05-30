@@ -6,7 +6,7 @@ export const useMainAdminStore = defineStore('mainAdminStore', () => {
         Object.assign(user, newData)
     }
     function logoutFromProfile() {
-        for (let property in user) {
+        for (const property in user) {
             delete user[property]
         }
         return navigateTo('/authorization')

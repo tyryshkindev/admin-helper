@@ -46,15 +46,18 @@ const props = defineProps({
     },
 })
 const {serverInfo, rateInfo} = toRefs(props)
+// console.log(serverInfo.value, rateInfo.value)
 const minimumDailyRate = reactive({})
 const allowedRate = reactive({})
 watch(serverInfo, newValue => {
+    console.log('info come!')
     Object.assign(minimumDailyRate, newValue.minimumDailyRate)
     Object.assign(allowedRate, newValue.allowedRate)
 }, {deep: true})
+
 const isRateAvailable = computed(() => {
-    const ratesToCheck = [minimumDailyRate, allowedRate, rateInfo.value]
-    return ratesToCheck.every(obj => !!Object.keys(obj).length)
+    const ratesToCheck = [minimumDailyRate, allowedRate]
+    return ratesToCheck.every(obj => !!Object.keys(obj).length) && !!rateInfo.value.length
 })
 // показать все значения, которые разрешены для отображения
 const displayedRates = computed(() => {
@@ -70,6 +73,7 @@ const filteredRateInfo = computed(() => {
         return filteredDay
     })
 })
+
 // если время - отформатировать
 function displayRate(day, rateName){
     return rateName === 'time' ? formatDate(day[rateName]) : day[rateName]
