@@ -38,30 +38,34 @@
 const props = defineProps({
     serverInfo: {
         type: Object,
-        required: true
+        required: true,
+        default: () => {}
     },
     rateInfo: {
         type: Array,
-        required: true
+        required: true,
+        default: () => []
     },
 })
 const {serverInfo, rateInfo} = toRefs(props)
-// console.log(serverInfo.value, rateInfo.value)
-const minimumDailyRate = reactive({})
-const allowedRate = reactive({})
-watch(serverInfo, newValue => {
-    console.log('info come!')
-    Object.assign(minimumDailyRate, newValue.minimumDailyRate)
-    Object.assign(allowedRate, newValue.allowedRate)
-}, {deep: true})
 
+const minimumDailyRate = computed(() => {
+    return Object.keys(serverInfo.value).length
+    ? serverInfo.value.minimumDailyRate
+    : {}
+})
+const allowedRate = computed(() => {
+    return Object.keys(serverInfo.value).length
+    ? serverInfo.value.allowedRate
+    : {}
+})
 const isRateAvailable = computed(() => {
-    const ratesToCheck = [minimumDailyRate, allowedRate]
+    const ratesToCheck = [minimumDailyRate.value, allowedRate.value]
     return ratesToCheck.every(obj => !!Object.keys(obj).length) && !!rateInfo.value.length
 })
 // показать все значения, которые разрешены для отображения
 const displayedRates = computed(() => {
-    return Object.keys(allowedRate).filter(rateName => allowedRate[rateName])
+    return Object.keys(allowedRate.value).filter(rateName => allowedRate.value[rateName])
 })
 // проверить разрешено ли отображать нужное значение
 const filteredRateInfo = computed(() => {
@@ -80,7 +84,7 @@ function displayRate(day, rateName){
 }
 // если все необходимые значение из объекта day больше или равно minimumDailyRate - применять зеленый бекграунд
 function paintBackgroundFromRateValue(day) {
-    const relevantRates = Object.keys(day).filter(rateName => Object.hasOwn(minimumDailyRate, rateName))
-    return relevantRates.every(rateName => day[rateName] >= minimumDailyRate[rateName]) ? 'bg-green-400' : 'bg-red-300'
+    const relevantRates = Object.keys(day).filter(rateName => Object.hasOwn(minimumDailyRate.value, rateName))
+    return relevantRates.every(rateName => day[rateName] >= minimumDailyRate.value[rateName]) ? 'bg-green-400' : 'bg-red-300'
 }
 </script>

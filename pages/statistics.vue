@@ -55,6 +55,10 @@ onMounted(() => {
     getInfoAboutServer()
 })
 
+watch(serverInfo, newValue => {
+    console.log(newValue)
+}, {deep: true})
+
 function toggleFailedRequest(newValue = false) {
     isServerRequestFailed.value = newValue
 }
@@ -67,9 +71,8 @@ async function getInfoAboutServer() {
     toggleRequestInProgress(true)
     const serverResponse = await getServerInfo(authorizationInfo)
     if (serverResponse && typeof serverResponse !== 'number') {
-        Object.assign(serverInfo, serverResponse)
+        Object.assign(serverInfo, JSON.parse(JSON.stringify(serverResponse)))
         modifyServerInfo()
-        console.log(serverInfo)
     } else if (typeof serverResponse === 'number') {
         toggleFailedRequest(true)
     }
