@@ -24,26 +24,31 @@
 const props = defineProps({
     rateInfo: {
         type: Object,
-        required: true
+        required: true,
+        default: () => {}
     },
     serverInfo: {
         type: Object,
-        required: true
+        required: true,
+        default: () => {}
     }
 })
 const {rateInfo, serverInfo} = toRefs(props)
-const serverLimits = reactive({})
-const minimumDailyRate = reactive({})
 
+const minimumDailyRate = computed(() => {
+    return Object.keys(serverInfo.value).length
+    ? serverInfo.value.minimumDailyRate
+    : {}
+})
+const serverLimits = computed(() => {
+    return Object.keys(serverInfo.value).length
+    ? serverInfo.value.allowedRate
+    : {}
+})
 const isInfoAvailable = computed(() => {
-    return !!Object.keys(rateInfo.value).length && !!Object.keys(serverLimits).length 
+    return !!Object.keys(rateInfo.value).length && !!Object.keys(serverLimits.value).length 
 })
 const formattedTime = computed(() => formatDate(rateInfo.value.time))
-
-watch(serverInfo, newValue => {
-    Object.assign(serverLimits, newValue.allowedRate)
-    Object.assign(minimumDailyRate, newValue.minimumDailyRate)
-}, {deep: true})
 
 function getLabel (key) {
   const labels = {
@@ -57,12 +62,12 @@ function getLabel (key) {
     return labels[key]   
 }
 function isRateAllowedToDisplay(key) {
-    return serverLimits && serverLimits[key]
+    return serverLimits.value && serverLimits.value[key]
 }
 function isMinimumValueSpecified(rateName) {
-    return !!minimumDailyRate[rateName]
+    return !!minimumDailyRate.value[rateName]
 }
 function isRateCompleted(rateName) {
-    return isMinimumValueSpecified(rateName) ? rateInfo.value[rateName] >= minimumDailyRate[rateName] : false
+    return isMinimumValueSpecified(rateName) ? rateInfo.value[rateName] >= minimumDailyRate.value[rateName] : false
 }
 </script>
