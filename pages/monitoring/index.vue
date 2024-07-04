@@ -1,5 +1,5 @@
 <template>
-    <div class="flex container mx-auto text-white py-4 px-8">
+    <div class="lg:flex container mx-auto text-white py-4 px-8">
         <div>
             <SearchForm 
                 :role="role" 
@@ -9,7 +9,7 @@
                 v-show="isLogAvailable" 
                 :lastSearchedTargets="lastSearchedStore.lastSearchedTargets.admin" 
                 :role="role"
-                class="pt-4" 
+                class="pt-4 md:max-h-36 lg:max-h-96" 
             />
         </div>
         <div v-if="isAdminsInfoLoaded">
