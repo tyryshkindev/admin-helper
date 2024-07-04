@@ -5,7 +5,6 @@ export const fetchAllAdminsInfo = async (serverID) => {
                 serverID: serverID
             }
         })
-        console.log(serverResponse)
         return serverResponse.length ? serverResponse : null
     } catch (error) {
         console.error(error)

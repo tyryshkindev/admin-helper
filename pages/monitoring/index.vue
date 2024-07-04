@@ -40,7 +40,7 @@ async function getAdminsInfo() {
     isGettingInfoInProgress.value = true
     const response = await getAllAdminsInfo(mainStore.user.serverID, authorizationInfo)
     response && typeof response !== 'number' 
-    ? adminsInfo.push(response)
+    ? adminsInfo.push(...response)
     : isGettingInfoFailed.value = true
     isGettingInfoInProgress.value = false
 }
