@@ -1,26 +1,66 @@
 <template>
-    <div class="text-black">
+    <div>
         <ClientOnly>
-            <VueApexCharts width="700" type="bar" :options="chartOptions" :series="chartSeries"/>
+            <VueApexCharts width="700" type="bar" :options="chartOptions" :series="chartSeries" class="text-black"/>
         </ClientOnly>
+        <div class="flex justify-end start">
+            <label for="rating-selector" class="p-1">Сортировать по:</label>
+            <select id="rating-selector" v-model="ratingSelector" name="rating" class="text-black rounded-md">
+                <option value="full">Общему рейтингу</option>
+                <option value="pm">Ответам</option>
+                <option value="jail">Деморганам</option>
+                <option value="z">Запросам</option>
+                <option value="ban">Блокировкам</option>
+                <option value="warn">Предупреждениям</option>
+            </select>
+        </div>
     </div>
 </template>
 
 <script setup>
 import VueApexCharts from "vue3-apexcharts"
+
 const props = defineProps({
     targetsInfo: {
         type: Array,
         default: () => []
     } 
 })
-const {targetsInfo} = toRefs(props)
+const { targetsInfo } = toRefs(props)
+const ratingSelector = ref('full')
+
+const calculateRatio = (rate, adminLvl) => { // расчёт коэфициентов
+    let result = 0
+    const lvl = Number(adminLvl) // в БД уровни хранятся как строки, преобразуем в число
+    rate.forEach(day => {
+        if (ratingSelector.value === 'full') { // если выбран общий рейтинг
+            if (lvl >= 3) { // коэффициенты для 3+ адм
+                result += day.pm
+                result += (day.jail * 3)
+                result += day.time
+                result += (day.warn * 3)
+                result += (day.ban * 3)
+            } else if (lvl === 2) { // коэффициенты для 2 лвл адм
+                result += day.pm
+                result += (day.jail * 3)
+                result += day.time
+            } else { // коэффициенты для хелперов
+                result += (day.pm * 2)
+                result += (day.z * 3)
+                result += (day.time * 1.5)
+            }
+        } else {
+            result += day[ratingSelector.value] || 0 // суммируем все значения если выбран конкретный пункт сортировки
+        }
+    })
+    return result
+}
 
 const adminsList = computed(() => {
     return targetsInfo.value
         .map(admin => ({
             nickname: admin.nickname, // создание объекта типа nickname - ratio
-            ratio: countAdminRatio(admin.rate, admin.adminLvl) // подсчёт коэфициента
+            ratio: calculateRatio(admin.rate, admin.adminLvl) // подсчёт коэфициента
         }))
         .sort((a,b) => b.ratio - a.ratio) // сортировка по коэффициенту
 })
@@ -47,42 +87,33 @@ const sortedAdminsList = computed(() => {
     return Array.from(acc) // преобразовуем Set в массив, т.к. библиотека работает с массивами
 })
 
-
-function countAdminRatio(rate, adminLvl) { // расчёт коэфициентов
-    let result = 0
-    const lvl = Number(adminLvl) // в БД уровни хранятся как строки, преобразуем в число
-    if (lvl >= 3) {
-        rate.forEach(day => { // коэффициенты для 3+ адм
-            result += day.pm
-            result += (day.jail * 3)
-            result += day.time
-            result += (day.warn * 3)
-            result += (day.ban * 3)
-        })
-    } else if (lvl === 2) { // коэффициенты для 2 лвл адм
-        rate.forEach(day => {
-            result += day.pm
-            result += (day.jail * 3)
-            result += day.time
-        })
-    } else { // коэффициенты для хелперов
-        rate.forEach(day => {
-            result += (day.pm * 2)  
-            result += (day.z * 3)
-            result += (day.time * 1.5)
-        })
-    }
-    return result
-}
-
 const chartOptions = reactive({
     chartOptions: {
         chart: {
             type: 'bar',
             height: 1200,
         },
-        
     },
+    responsive: [
+        {
+            breakpoint: 640,
+            options: {
+                chart: {
+                    height: 560,
+                    width: 390,
+                }
+            }
+        },
+        {
+            breakpoint: 1024,
+            options: {
+                chart: {
+                    height: 780,
+                    width: 720,
+                }
+            }
+        }
+    ],
     plotOptions: {
         bar: {
             borderRadius: 4,
@@ -91,7 +122,7 @@ const chartOptions = reactive({
         }
     },
     xaxis: {
-        categories: [...sortedAdminsList.value],
+        categories: [],
         title: {
             text: 'Коэффициент',
             align: 'middle',
@@ -103,8 +134,7 @@ const chartOptions = reactive({
             style: {
                 colors: ['#acd6e3']
             }
-        } 
-        
+        }
     },
     yaxis: {
         labels: {
@@ -130,8 +160,22 @@ const chartOptions = reactive({
         }
     }
 })
+
 const chartSeries = reactive([{
     name: 'Рейтинг администратора',
-    data: [...sortedRatingsList.value]
+    data: []
 }])
+
+watch(() => ratingSelector.value, () => {
+    chartOptions.xaxis.categories = [...sortedAdminsList.value]
+    chartSeries[0].data = [...sortedRatingsList.value]
+})
+
+watch(adminsList, () => {
+    chartOptions.xaxis.categories = [...sortedAdminsList.value]
+    chartSeries[0].data = [...sortedRatingsList.value]
+})
+
+chartOptions.xaxis.categories = [...sortedAdminsList.value]
+chartSeries[0].data = [...sortedRatingsList.value]
 </script>
