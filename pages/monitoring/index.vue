@@ -1,5 +1,5 @@
 <template>
-    <div class="container mx-auto text-white py-4 px-8">
+    <div class="flex container mx-auto text-white py-4 px-8">
         <div>
             <SearchForm 
                 :role="role" 
@@ -12,7 +12,7 @@
                 class="pt-4" 
             />
         </div>
-        <div>
+        <div v-if="isAdminsInfoLoaded">
             <ChartsMain :targetsInfo="adminsInfo" />
         </div>
     </div>
@@ -24,6 +24,7 @@ useHead({
 const mainStore = useMainAdminStore()
 const lastSearchedStore = useLastSearchedStore()
 const role = ref('admin')
+const isLogAvailable = computed(() => !!lastSearchedStore.lastSearchedTargets[role.value].size)
 const isGettingInfoInProgress = ref(false)
 const isGettingInfoFailed = ref(false)
 const authorizationInfo = reactive({
@@ -31,6 +32,7 @@ const authorizationInfo = reactive({
     nickname: mainStore.user.nickname
 })
 const adminsInfo = reactive([])
+const isAdminsInfoLoaded = computed(() => !!adminsInfo.length)
 
 onMounted(() => {
     getAdminsInfo()
@@ -47,7 +49,5 @@ async function getAdminsInfo() {
 function saveSearchQuery(nickname) {
     lastSearchedStore.updateLastSearchedTargets(role.value, nickname)
 }
-const isLogAvailable = computed(() => {
-    return !!lastSearchedStore.lastSearchedTargets[role.value].size
-})
+
 </script>

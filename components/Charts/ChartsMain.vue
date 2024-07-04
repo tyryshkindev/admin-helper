@@ -1,5 +1,5 @@
 <template>
-    <div v-show="isContentLoaded" class="text-black">
+    <div class="text-black">
         <ClientOnly>
             <VueApexCharts width="700" type="bar" :options="chartOptions" :series="chartSeries"/>
         </ClientOnly>
@@ -12,83 +12,76 @@ const props = defineProps({
     targetsInfo: {
         type: Array,
         default: () => []
-    }
+    } 
 })
 const {targetsInfo} = toRefs(props)
-
-const isContentLoaded = computed(() => !!targetsInfo.value.length)
 
 const adminsList = computed(() => {
     return targetsInfo.value
         .map(admin => ({
-            nickname: admin.nickname,
-            ratio: countAdminRatio(admin.rate, admin.adminLvl)
+            nickname: admin.nickname, // создание объекта типа nickname - ratio
+            ratio: countAdminRatio(admin.rate, admin.adminLvl) // подсчёт коэфициента
         }))
-        .sort((a,b) => b.ratio - a.ratio)
+        .sort((a,b) => b.ratio - a.ratio) // сортировка по коэффициенту
 })
 
 const adminsLeaderboard = computed(() => {
-  return adminsList.value.reduce((acc, admin) => {
+  return adminsList.value.reduce((acc, admin) => { 
     acc[admin.nickname] = admin.ratio
-    return acc
+    return acc // присвоение значения никнейм - кэффициент
   }, {})
 })
 
-console.log(adminsLeaderboard.value)
-
 const sortedRatingsList = computed(() => {
-    return Object.values(adminsLeaderboard.value).sort((a,b) => b.ratio - a.ratio)
+    return Object.values(adminsLeaderboard.value).sort((a,b) => b.ratio - a.ratio) // сортировка рейтинга по убыванию
 })
-
-// console.log(sortedRatingsList.value)
 
 const sortedAdminsList = computed(() => {
-    const acc = []
+    const acc = new Set() // используем Set чтобы иметь только уникальные значения ников (т.к. рейтинги могут быть одинаковыми)
     sortedRatingsList.value.forEach(number => {
-        const key = Object
+        Object
             .keys(adminsLeaderboard.value)
-            .find(ratio => adminsLeaderboard.value[ratio] === number)
-        acc.push(key)
+            .filter(ratio => adminsLeaderboard.value[ratio] === number) // поиск ника в объекте по значению коэфициента
+            .forEach(key => acc.add(key)) // добавление ника в Set (для подписи графика по никам)
     })
-    return acc
+    return Array.from(acc) // преобразовуем Set в массив, т.к. библиотека работает с массивами
 })
 
-console.log(sortedAdminsList.value)
 
-function countAdminRatio(rate, adminLvl) {
+function countAdminRatio(rate, adminLvl) { // расчёт коэфициентов
     let result = 0
-    const lvl = Number(adminLvl)
-    console.log(lvl) 
+    const lvl = Number(adminLvl) // в БД уровни хранятся как строки, преобразуем в число
     if (lvl >= 3) {
-        rate.forEach(day => {
+        rate.forEach(day => { // коэффициенты для 3+ адм
             result += day.pm
             result += (day.jail * 3)
             result += day.time
             result += (day.warn * 3)
             result += (day.ban * 3)
         })
-    } else if (lvl === 2) {
+    } else if (lvl === 2) { // коэффициенты для 2 лвл адм
         rate.forEach(day => {
             result += day.pm
             result += (day.jail * 3)
             result += day.time
         })
-    } else {
+    } else { // коэффициенты для хелперов
         rate.forEach(day => {
             result += (day.pm * 2)  
             result += (day.z * 3)
-            result += day.time
+            result += (day.time * 1.5)
         })
     }
     return result
 }
- 
+
 const chartOptions = reactive({
     chartOptions: {
         chart: {
             type: 'bar',
-            height: 1200
+            height: 1200,
         },
+        
     },
     plotOptions: {
         bar: {
@@ -98,10 +91,47 @@ const chartOptions = reactive({
         }
     },
     xaxis: {
-        categories: sortedAdminsList.value
+        categories: [...sortedAdminsList.value],
+        title: {
+            text: 'Коэффициент',
+            align: 'middle',
+            style: {
+                color: '#e0dede'
+            }
+        },
+        labels: {
+            style: {
+                colors: ['#acd6e3']
+            }
+        } 
+        
+    },
+    yaxis: {
+        labels: {
+            style: {
+                colors: ['#acd6e3'],
+                fontSize: '14px'
+            }
+        }
+    },
+    title: {
+        text: 'ТОП администрации за текущий месяц',
+        align: 'middle',
+        style: {
+            fontSize: '18px',
+            fontWeight: 'bold',
+            color: '#ffffff'
+        }
+    },
+    dataLabels: {
+        enabled: true,
+        style: {
+            color: '#ffffff'
+        }
     }
 })
 const chartSeries = reactive([{
-    data: sortedRatingsList.value
+    name: 'Рейтинг администратора',
+    data: [...sortedRatingsList.value]
 }])
 </script>
