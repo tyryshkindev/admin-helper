@@ -8,11 +8,13 @@
                 <HeaderBurger :links="links.value || []" />
                 <div class="hidden lg:flex flex-wrap bg-gray-200 rounded-md p-1.5">
                     <HeaderNavigationLinks :links="links.value || []"/>
+                    <LanguageSwitcher />
                 </div>
             </template>
             <slot v-else>
                 <div class="flex">
                     <AuthorizationButton class="bg-gray-200 hover:bg-gray-300" />
+                    <LanguageSwitcher class="pt-0.5 pl-4"/>
                 </div>
             </slot>
         </nav>

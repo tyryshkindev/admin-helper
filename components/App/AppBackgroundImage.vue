@@ -6,6 +6,6 @@
 
 <style scoped>
 .page__content{
-    background-image: url('../public/bg.png')
+    background-image: url('../../public/bg.png')
 }
 </style>
