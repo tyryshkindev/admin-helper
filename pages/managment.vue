@@ -2,7 +2,7 @@
     <div class="container mx-auto p-4 text-white">
         <div v-if="isInfoAvailable">
             <AppServerNumber />
-            <h2 class="text-2xl font-bold pt-4">Управление серверной информацией</h2>
+            <h2 class="text-2xl font-bold pt-4">{{ $t('managment__title') }}</h2>
             <ManagmentServerPermissions 
                 :serverPermissions="serverInfo.allowedRate"
                 @changePermissions="changePermissions"
@@ -16,19 +16,19 @@
                 :disabled="!isInfoChanged"
                 @click="saveChanges"
             />
-            <p v-if="isServerUpdated" class="text-green-500">Информация о сервере успешно обновлена!</p>
+            <p v-if="isServerUpdated" class="text-green-500">{{ $t('managment__update-success') }}</p>
         </div>
         <div v-else>
-            <AppErrorMessage v-show="!isGettingInfoInProgress" :message="'Получение информации о сервере неудачно.'" />
+            <AppErrorMessage v-show="!isGettingInfoInProgress" :message="'Getting server info failed.'" />
         </div>
         <UILoadingSpinner v-show="isGettingInfoInProgress" />
         <ModalWindow :isOpened="isGettingInfoFailed" @closeModal="isGettingInfoFailed = false">
             <template #header>
-                    <p class="text-lg font-bold">Ошибка при получении данных о сервере</p>
-                </template>
-                <template #body>
-                    <p>Невозможно получить / обновить данные о сервере. Возникла внутренняя ошибка</p>
-                </template>
+                <p class="text-lg font-bold">{{ $t('managment__getting__info-failed') }}</p>
+            </template>
+            <template #body>
+                <p>{{ $t('managment__modal__fetch-err') }}</p>
+            </template>
         </ModalWindow>
     </div>
     

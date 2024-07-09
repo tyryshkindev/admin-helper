@@ -1,6 +1,6 @@
 <template>
     <div>
-        <p class="text-lg">Разрешения на просмотр статистики:</p>
+        <p class="text-lg">{{ $t('managment__permissions-title') }}</p>
         <div v-for="(value, permissionName) in modifiedPermissions" :key="value + permissionName" class="flex">
             <label :for="permissionName">
                 <p>{{ formatPunishmentType(permissionName) }}:</p>
@@ -17,6 +17,7 @@
 </template>
 
 <script setup>
+const {locale} = useI18n()
 const props = defineProps({
     serverPermissions: {
         type: Object,
@@ -30,7 +31,7 @@ const emit = defineEmits({
 const modifiedPermissions = reactive({...serverPermissions.value})
 
 function formatPunishmentType(type) {
-    const punishments = {
+    const ruPunishments = {
         'z': 'Закрытые запросы',
         'pm': 'Ответы на репорт',
         'mute': 'Блокировки чата',
@@ -39,7 +40,16 @@ function formatPunishmentType(type) {
         'ban': 'Блокировки',
         'time': 'Отыгранное время'
     }
-    return punishments[type]
+    const enPunishments = {
+        "z": "Closed requests",
+        "pm": "Report answers",
+        "mute": "Chat blocks",
+        "jail": "Jails",
+        "warn": "Warns",
+        "ban": "Bans",
+        "time": "Played time"
+    }
+    return locale.value === 'ru' ? ruPunishments[type] : enPunishments[type]
 }
 function toggleCheckbox(updatedInfo) {
     const {newValue, permissionName} = updatedInfo

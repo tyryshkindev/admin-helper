@@ -23,30 +23,25 @@
     </header>
 </template>
 <script setup>
+const {locale} = useI18n()
 const mainStore = useMainAdminStore()
 const links = reactive([])
-const linkParts = reactive({
-    profile: {
-        label: 'Профиль',
-        icon: 'i-heroicons-home',
-        to: '/profile',
-        badge: `${mainStore.user.nickname}`
-    }, 
+const linkParts = reactive({ 
     statistics: {
-        label: 'Статистика',
+        label: locale.value === 'ru' ? 'Статистика' : 'Statistics',
         icon: 'i-heroicons-chart-bar',
         to: '/statistics',
         badge: `${mainStore.user.nickname}`
     }, search: {
-        label: 'Поиск игроков',
+        label: locale.value === 'ru' ? 'Поиск игроков' : 'Players search',
         icon: 'i-heroicons-magnifying-glass',
         to: '/players'
     }, managment: {
-        label: 'Управление сервером',
+        label: locale.value === 'ru' ? 'Управление сервером' : 'Server managment',
         icon: 'i-heroicons-adjustments-vertical',
         to: '/managment'
     }, monitoring: {
-        label: 'Мониторинг администрации',
+        label: locale.value === 'ru' ? 'Мониторинг администрации' : 'Administration monitoring',
         icon: 'i-heroicons-identification',
         to: '/monitoring'
     }

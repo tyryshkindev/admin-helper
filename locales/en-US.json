@@ -2,5 +2,21 @@
     "home__title": "Admins helper for HASSLE ONLINE",
     "home__instructions-title": "How to use:",
     "home__instructions-content-step1": "Log in to account",
-    "home__instructions-content-step2": "Get instant access to all abilities"
+    "home__instructions-content-step2": "Get instant access to all abilities",
+
+    "server__number": "Server",
+
+    "authorization__auth-btn": "Log in",
+    "authorization__instruction": "Enter nickname and password, as in the game",
+
+    "managment__title": "Server information managment",
+    "managment__permissions-title": "Permissions to view statistics",
+    "managment__minimum-title": "Minimum rate",
+    "managment__minimum-daily__title": "Minimum rate for",
+    "managment__save__changes-btn": "Save changes",
+    "managment__update-success": "Server info updated successfully!",
+    "managment__getting__info-failed": "An error occured while getting server info",
+    "managment__modal__fetch-err": "Unable to get / update server info. Internal server error occured."
+
+    
 }

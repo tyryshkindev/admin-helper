@@ -2,5 +2,22 @@
     "home__title": "Помощник администрации HASSLE ONLINE",
     "home__instructions-title": "Как пользоваться помощником:",
     "home__instructions-content-step1": "Войдите в личный кабинет администратора",
-    "home__instructions-content-step2": "Получите мгновенный доступ ко всем возможностям"
+    "home__instructions-content-step2": "Получите мгновенный доступ ко всем возможностям",
+
+    "server__number": "Сервер",
+
+    "authorization__auth-btn": "Войти",
+    "authorization__instruction": "Введите никнейм и пароль, как в игре",
+
+    "managment__title": "Управление серверной информацией",
+    "managment__permissions-title": "Разрешения на просмотр статистики",
+    "managment__minimum-title": "Минимальная норма",
+    "managment__minimum-daily__title": "Минимальный рейтинг для",
+    "managment__save__changes-btn": "Сохранить изменения",
+    "managment__update-success": "Информация о сервере успешно обновлена!",
+    "managment__getting__info-failed": "Ошибка при получении данных о сервере",
+    "managment__modal__fetch-err": "Невозможно получить / обновить данные о сервере. Возникла внутренняя ошибка"
+    
+
+
 }
