@@ -167,3 +167,8 @@ watch(adminsList, () => {
 chartOptions.xaxis.categories = [...sortedAdminsList.value]
 chartSeries[0].data = [...sortedRatingsList.value]
 </script>
+<style scoped>
+.apexcharts-toolbar, .apexcharts-tooltip, .apexcharts-xaxistooltip, .apexcharts-yaxistooltip{
+    z-index: 0 !important;
+}
+</style>

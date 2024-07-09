@@ -55,10 +55,6 @@ onMounted(() => {
     getInfoAboutServer()
 })
 
-watch(serverInfo, newValue => {
-    console.log(newValue)
-}, {deep: true})
-
 function toggleFailedRequest(newValue = false) {
     isServerRequestFailed.value = newValue
 }
