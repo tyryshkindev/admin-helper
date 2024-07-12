@@ -1,19 +1,20 @@
 <template>
     <div v-if="alist && !!Object.keys(alist).length" class="max-h-60 lg:max-h-96 overflow-auto xl:overflow-hidden hover:overflow-auto">
-        <p class="pb-3">Последние наказания игрока:</p>
+        <p class="pb-3">{{ $t('player__alist-title') }}:</p>
         <div v-for="punishment in alist" :key="punishment.id" class="pb-3">
-            <p>Наказание: {{ getPunishmentType(punishment.type) }}</p>
-            <p>Время наказания: {{ formattedPunishmentTime(punishment.time) }}</p>
-            <p>Администратор: {{ punishment.adminNick }}</p>
-            <p>Причина: {{ punishment.reason }}</p>
-            <p v-if="punishment.type !== 'warn'">Длительность наказания: {{ punishment.duration }}</p>
+            <p>{{ $t('player__alist-punishment') }}: {{ getPunishmentType(punishment.type) }}</p>
+            <p>{{ $t('player__alist-time') }}: {{ formattedPunishmentTime(punishment.time) }}</p>
+            <p>{{ $t('player__alist-admin') }}: {{ punishment.adminNick }}</p>
+            <p>{{ $t('player__alist-reason') }}: {{ punishment.reason }}</p>
+            <p v-if="punishment.type !== 'warn'">{{ $t('player__alist-duration') }}: {{ punishment.duration }}</p>
         </div>
     </div>
-    <p v-else>Список наказаний игрока пуст.</p>
+    <p v-else>{{ $t('player__alist-empty') }}.</p>
 </template>
 
 <script setup>
-import {punishmentTypes} from '@/constants/index'
+import {ruPunishmentTypes, enPunishmentTypes} from '@/constants/index'
+const {locale} = useI18n()
 const props = defineProps({
     alist: {
         type: Object, 
@@ -23,23 +24,37 @@ const props = defineProps({
 const {alist} = toRefs(props)
 
 function getPunishmentType(punishment) {
-    return punishmentTypes[punishment]
+    return locale.value === 'ru' ? ruPunishmentTypes[punishment] : enPunishmentTypes[punishment]
 }
 function getTextMonth(id) {
-    const months = [
-    'Января',
-    'Февраля',
-    'Марта',
-    'Апреля',
-    'Мая',
-    'Июня',
-    'Июля',
-    'Августа',
-    'Сентября',
-    'Ноября',
-    'Декабря',
+    const ruMonths = [
+        'Января',
+        'Февраля',
+        'Марта',
+        'Апреля',
+        'Мая',
+        'Июня',
+        'Июля',
+        'Августа',
+        'Сентября',
+        'Ноября',
+        'Декабря',
     ]
-    return months[id]
+    const enMonths = [
+        'January',
+        'February',
+        'March',
+        'April',
+        'May',
+        'June',
+        'July',
+        'August',
+        'September',
+        'October',
+        'November',
+        'December'
+    ]
+    return locale.value === 'ru' ? ruMonths[id] : enMonths[id]
 }
 function formattedPunishmentTime(timestamp) {
     const date = new Date(Number(timestamp))

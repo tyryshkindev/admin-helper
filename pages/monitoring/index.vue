@@ -18,8 +18,9 @@
     </div>
 </template>
 <script setup>
+const {locale} = useI18n()
 useHead({
-    title: 'Мониторинг администрации'
+    title: locale.value === 'ru' ? 'Мониторинг администрации' : 'Administration monitoring'
 })
 const mainStore = useMainAdminStore()
 const lastSearchedStore = useLastSearchedStore()

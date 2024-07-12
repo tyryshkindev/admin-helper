@@ -1,5 +1,5 @@
 <template>
-    <div class="container mx-auto text-white">
+    <div class="container mx-auto p-4 text-white">
         <div v-if="isInfoAvailable">
             <div class="flex justify-between">
                 <AppServerNumber class="py-4" />

@@ -2,10 +2,10 @@
     <div>
         <ModalWindow :isOpened="isModalOpened" @closeModal="closeModal">
             <template #header>
-                <p class="text-lg font-bold">Ошибка при авторизации</p>
+                <p class="text-lg font-bold">{{ $t('modal__auth-title') }}</p>
             </template>
             <template #body>
-                <p>Невозможно авторизоваться, возникла ошибка сервера</p>
+                <p>{{ $t('modal__auth-body') }}</p>
             </template>
         </ModalWindow>
     </div>

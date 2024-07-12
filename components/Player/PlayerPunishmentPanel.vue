@@ -1,6 +1,6 @@
 <template>
     <div class="pt-2">
-        <p class="text-lg pb-2">Панель управления</p>
+        <p class="text-lg pb-2">{{ $t('player__punishment__panel-title') }}</p>
         <div class="grid grid-cols-3 gap-2 lg:flex lg:justify-start">
             <template v-for="punishment in formattedTypes" :key="punishment.id">
                 <PlayerPunishmentButton 
@@ -25,11 +25,20 @@
             class="mt-2"
             @click="handlePunishPlayer"
         />
+        <ModalWindow :isOpened="isPunishmentFailed" @closeModal="isPunishmentFailed = false">
+            <template #header>
+                <p class="text-lg font-bold">{{ $t('player__punishment__panel-modal-title') }}</p>
+            </template>
+            <template #body>
+                <p>{{ $t('player__punishment__panel-modal-body') }}</p>
+            </template>
+        </ModalWindow>
     </div>
 </template>
 
 <script setup>
-import {punishmentTypes} from '@/constants/index'
+import {ruPunishmentTypes, enPunishmentTypes} from '@/constants/index'
+const {locale} = useI18n()
 const props = defineProps({
     playerID: {
         type: Number,
@@ -50,19 +59,28 @@ const punishmentReason = ref('')
 const punishmentDuration = ref(0)
 const isAllowedToEnterReason = ref(false)
 const isAllowedToPunishPlayer = ref(false)
+const isPunishmentFailed = ref(false)
 
 const formattedTypes = computed(() => {
-    const allowedTyperFor2Lvl = {
+    const ru2lvlTypes = {
         'rmute': 'Блокировка репорта',
         'mute': 'Блокировка чата',
-        'fmute': 'Полная блокировка чатов'        
+        'fmute': 'Полная блокировка чатов'
     }
+    const en2lvlTypes = {
+        'rmute': 'Block report',
+        'mute': 'Block chat',
+        'fmute': 'Block all chats'
+    }
+    const allowedTyperFor2Lvl = locale.value === 'ru' ? ru2lvlTypes : en2lvlTypes
+    const punishmentTypes = locale.value === 'ru' ? ruPunishmentTypes : enPunishmentTypes
     return mainStore.user.adminLvl === '2'
     ? allowedTyperFor2Lvl
     : punishmentTypes
 })
 
 function getPunishmentType(type) {
+    const punishmentTypes = locale.value === 'ru' ? ruPunishmentTypes : enPunishmentTypes
     return Object.keys(punishmentTypes).find(key => punishmentTypes[key] === type)
 }
 function isPunishmentActive(type) {
@@ -120,6 +138,8 @@ async function handlePunishPlayer() {
         togglePermisionToEnterReason(false)
         setPunishmentReason('')
         setPunishmentDuration(0)
+    } else {
+        isPunishmentFailed.value = true
     }
 }
 </script>

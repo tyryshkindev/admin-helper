@@ -1,6 +1,6 @@
 <template>
     <div>
-        <p>Минимальный рейтинг для {{ formattedRole }}а</p>
+        <p>{{ $t('managment__minimum-daily__title') }} {{ formattedRole }}</p>
         <div v-for="(amount, rateName) in minimumRate" :key="amount + rateName" class="flex">
             <p class="pr-2">{{ rateName }}: </p>
             <UIInputNumber 
@@ -13,6 +13,7 @@
 </template>
 
 <script setup>
+const {locale} = useI18n()
 const props = defineProps({
     role: {
         type: String,
@@ -28,11 +29,15 @@ const emit = defineEmits({
     'changeMinimumAmount': null
 })
 const formattedRole = computed(() => {
-    const roles = {
-        'helper': 'Помощник',
-        'admin': 'Администратор'
+    const ruRoles = {
+        'helper': 'Помощника',
+        'admin': 'Администратора'
     }
-    return roles[role.value]
+    const enRoles = {
+        'helper': 'Helper',
+        'admin': 'Admin'
+    }
+    return locale.value === 'ru' ? ruRoles[role.value] : enRoles[role.value]
 })
 function setNewAmount(newInfo) {
     emit('changeMinimumAmount', {...newInfo, role: role.value})    

@@ -1,6 +1,6 @@
 <template>
     <div>
-        <p class="text-lg">Минимальная норма:</p>
+        <p class="text-lg">{{ $t('managment__minimum-title') }}:</p>
         <ManagmentDailyRate 
             :role="'helper'"
             :minimumRate="minimumRate.helper"

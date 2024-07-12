@@ -2,7 +2,7 @@
     <div>
         <UILoadingSpinner v-show="isAuthorizationInProgress" />
         <form v-show="!isAuthorizationInProgress" id="authorization" class="py-8 px-5 bg-slate-700 rounded-lg">
-            <h2 class="text-white">Введите никнейм и пароль, как в игре</h2>
+            <h2 class="text-white">{{ $t('authorization__instruction') }}</h2>
             <UIInputField 
                 :inputValue="nickName" 
                 :placeholder="'Nick_Name'" 
@@ -12,7 +12,7 @@
             <UIInputField 
                 :inputValue="password" 
                 :type="'password'" 
-                :placeholder="'Пароль'"
+                :placeholder="'Password'"
                 @update:inputValue="setPassword" 
                 @keydown.enter="handleAuthorize"
                  
