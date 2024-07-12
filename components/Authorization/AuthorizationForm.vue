@@ -12,12 +12,12 @@
             <UIInputField 
                 :inputValue="password" 
                 :type="'password'" 
-                :placeholder="'Password'"
+                :placeholder="passwordPlaceholder"
                 @update:inputValue="setPassword" 
                 @keydown.enter="handleAuthorize"
                  
             />
-            <AppErrorMessage v-show="isAuthDataWrong" :message="'Неверные данные для авторизации! Проверьте ник и пароль'" />
+            <AppErrorMessage v-show="isAuthDataWrong" :message="authErrMessage" />
             <ModalAuthorizationFailed :isModalOpened="isServerResponseFailed" @closeModal="toggleWrongServerResponse" />
             <footer class="text-right mt-4">
                 <AuthorizationButton class="bg-cyan-400 hover:bg-cyan-600 p-2" @click="handleAuthorize" />
@@ -27,6 +27,7 @@
 </template>
 
 <script setup>
+const {locale} = useI18n()
 const emit = defineEmits({
     authorization: null
 })
@@ -35,6 +36,14 @@ const password = ref('')
 const isAuthDataWrong = ref(false)
 const isAuthorizationInProgress = ref(false)
 const isServerResponseFailed = ref(false)
+
+const passwordPlaceholder = computed(() => {
+    return locale.value === 'ru' ? 'Пароль' : 'Password'
+})
+
+const authErrMessage = computed(() => {
+    return locale.value === 'ru' ? 'Неверные данные для авторизации! Проверьте ник и пароль' : 'Wrong authorization data! Check data validity'
+})
 
 function setNickName(newValue) {
     nickName.value = newValue
