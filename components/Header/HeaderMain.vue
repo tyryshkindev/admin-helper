@@ -5,18 +5,18 @@
                 <img src="../../public/hassle__logo.svg" alt="Hassle Logotype">
             </div>
             <template v-if="mainStore.isUserAuthorized">
-                <HeaderBurger :links="links.value || []" />
-                <div class="flex">
+                <HeaderBurger :links="links" />
+                <div class="hidden lg:flex">
                     <div class="hidden lg:flex flex-wrap flex-end bg-gray-200 rounded-md px-1.5 py-1">
-                        <HeaderNavigationLinks :links="links.value || []"/>
+                        <HeaderNavigationLinks :links="links"/>
                     </div>
-                    <LanguageSwitcher class="pt-2 pl-3" />
+                    <LanguageSwitcher class="hidden lg:block pt-2 pl-3" />
                 </div>
             </template>
             <slot v-else>
                 <div class="flex">
+                    <LanguageSwitcher class="pt-1 pr-3"/>
                     <AuthorizationButton class="bg-gray-200 hover:bg-gray-300" />
-                    <LanguageSwitcher class="pt-0.5 pl-4"/>
                 </div>
             </slot>
         </nav>
@@ -25,43 +25,46 @@
 <script setup>
 const {locale} = useI18n()
 const mainStore = useMainAdminStore()
-const links = reactive([])
-const linkParts = reactive({ 
-    statistics: {
-        label: locale.value === 'ru' ? 'Статистика' : 'Statistics',
-        icon: 'i-heroicons-chart-bar',
-        to: '/statistics',
-        badge: `${mainStore.user.nickname}`
-    }, search: {
-        label: locale.value === 'ru' ? 'Поиск игроков' : 'Players search',
-        icon: 'i-heroicons-magnifying-glass',
-        to: '/players'
-    }, managment: {
-        label: locale.value === 'ru' ? 'Управление сервером' : 'Server managment',
-        icon: 'i-heroicons-adjustments-vertical',
-        to: '/managment'
-    }, monitoring: {
-        label: locale.value === 'ru' ? 'Мониторинг администрации' : 'Administration monitoring',
-        icon: 'i-heroicons-identification',
-        to: '/monitoring'
+const linkParts = computed(() => {
+    return {
+        statistics: {
+            label: locale.value === 'ru' ? 'Статистика' : 'Statistics',
+            icon: 'i-heroicons-chart-bar',
+            to: '/statistics',
+            badge: `${mainStore.user.nickname}`
+        }, search: {
+            label: locale.value === 'ru' ? 'Поиск игроков' : 'Players search',
+            icon: 'i-heroicons-magnifying-glass',
+            to: '/players'
+        }, managment: {
+            label: locale.value === 'ru' ? 'Управление сервером' : 'Server managment',
+            icon: 'i-heroicons-adjustments-vertical',
+            to: '/managment'
+        }, monitoring: {
+            label: locale.value === 'ru' ? 'Мониторинг администрации' : 'Administration monitoring',
+            icon: 'i-heroicons-identification',
+            to: '/monitoring'
+        }
     }
 })
-switch (mainStore.user.adminLvl) {
-    case '1': 
-        links.value = [{...linkParts.statistics}]
-        break
-    case '2': 
-    case '3':
-    case '4':
-        links.value = [{...linkParts.statistics}, {...linkParts.search}]
-        break
-    case '5':
-        links.value = [{...linkParts.monitoring}, {...linkParts.search}]
-        break
-    case '6':
-        links.value = [{...linkParts.managment},{...linkParts.monitoring},{...linkParts.search}]
-        break
-}
+
+const links = computed(() => {
+    switch (mainStore.user.adminLvl) {
+        case '1':
+            return [{ ...linkParts.value.statistics }]
+        case '2':
+        case '3':
+        case '4':
+            return [{ ...linkParts.value.statistics }, { ...linkParts.value.search }]
+        case '5':
+            return [{ ...linkParts.value.monitoring }, { ...linkParts.value.search }]
+        case '6':
+            return [{ ...linkParts.value.managment }, { ...linkParts.value.monitoring }, { ...linkParts.value.search }]
+        default:
+            return []
+    }
+}); 
+
 const redirectHome = () =>  {
     const juniorAdmins = ['1','2','3', '4']
     const adminLvl = mainStore.user.adminLvl

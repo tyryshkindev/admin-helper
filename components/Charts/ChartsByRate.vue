@@ -5,6 +5,7 @@
 <script setup>
 import VueApexCharts from 'vue3-apexcharts';
 
+const {locale} = useI18n()
 const props = defineProps({
     ratingSelector: {
         type: String,
@@ -112,7 +113,7 @@ const chartOptions = reactive({
     xaxis: {
         categories: [],
         title: {
-            text: 'Коэффициент',
+            text: locale.value === 'ru' ? 'Коэффициент' : 'Ratio',
             align: 'middle',
             style: {
                 color: '#e0dede'
@@ -133,7 +134,7 @@ const chartOptions = reactive({
         }
     },
     title: {
-        text: 'ТОП администрации за текущий месяц',
+        text: locale.value === 'ru' ? 'ТОП администрации за текущий месяц' : 'Admins TOP for current month',
         align: 'middle',
         style: {
             fontSize: '18px',
@@ -150,22 +151,24 @@ const chartOptions = reactive({
 })
 
 const chartSeries = reactive([{
-    name: 'Рейтинг администратора',
+    name: locale.value === 'ru' ? 'Рейтинг администратора' : 'Admins rating',
     data: []
 }])
 
-watch(ratingSelector, () => {
-    chartOptions.xaxis.categories = [...sortedAdminsList.value]
-    chartSeries[0].data = [...sortedRatingsList.value]
+const updateChart = () => {
+  chartOptions.xaxis.title.text = locale.value === 'ru' ? 'Коэффициент' : 'Ratio';
+  chartOptions.title.text = locale.value === 'ru' ? 'ТОП администрации за текущий месяц' : 'Admins TOP for current month'
+  chartSeries[0].name = locale.value === 'ru' ? 'Рейтинг администратора' : 'Admins rating'
+  chartOptions.xaxis.categories = [...sortedAdminsList.value]
+  chartSeries[0].data = [...sortedRatingsList.value]
+};
+
+watch([locale, ratingSelector, adminsList], updateChart) // в случае смены языка, переключателя рейтинга или списка админов выполняем пересчёт
+
+onMounted(() => {
+    updateChart() // инициализация с начальными значениями
 })
 
-watch(adminsList, () => {
-    chartOptions.xaxis.categories = [...sortedAdminsList.value]
-    chartSeries[0].data = [...sortedRatingsList.value]
-})
-
-chartOptions.xaxis.categories = [...sortedAdminsList.value]
-chartSeries[0].data = [...sortedRatingsList.value]
 </script>
 <style scoped>
 .apexcharts-toolbar, .apexcharts-tooltip, .apexcharts-xaxistooltip, .apexcharts-yaxistooltip{

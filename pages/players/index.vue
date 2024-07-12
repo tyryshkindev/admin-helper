@@ -13,8 +13,9 @@
     </div>
 </template>
 <script setup>
+const {locale} = useI18n()
 useHead({
-    title: 'Поиск игроков'
+    title: locale.value === 'ru' ? 'Поиск игроков' : 'Players search'
 })
 const lastSearchedStore = useLastSearchedStore()
 const role = ref('player')

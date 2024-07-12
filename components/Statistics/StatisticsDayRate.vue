@@ -1,8 +1,8 @@
 <template>
     <div class="text-white">
         <div class="flex items-center">
-            <p class="text-xl font-bold">Статистика за сегодня</p>
-            <Icon name="i-heroicons-chart-bar" size="2em" class="ml-1 w-5 h-5align-middle"/>
+            <p class="text-xl font-bold">{{ $t('statistics__day-title') }}</p>
+            <Icon name="i-heroicons-chart-bar" size="2em" class="ml-1 w-5 h-5 align-middle"/>
         </div>
         <template v-if="isInfoAvailable">
             <template v-for="(rate, key) in rateInfo" :key="key">
@@ -12,15 +12,16 @@
                 </div>
             </template>
             <div v-if="isRateAllowedToDisplay('time')" class="flex">
-                <p class="pr-2">Отыграно времени: {{ formattedTime }}</p>
+                <p class="pr-2">{{ $t('statistics__day-time') }} : {{ formattedTime }}</p>
                 <Icon v-if="isRateCompleted('time')" name="i-heroicons-check-20-solid" />
             </div>
         </template>
-        <AppErrorMessage v-else :message="'Данные о норме отсутвуют'"/>
+        <AppErrorMessage v-else :message="'No rate data available'"/>
     </div>
 </template>
 
 <script setup>
+const {locale} = useI18n()
 const props = defineProps({
     rateInfo: {
         type: Object,
@@ -51,7 +52,7 @@ const isInfoAvailable = computed(() => {
 const formattedTime = computed(() => formatDate(rateInfo.value.time))
 
 function getLabel (key) {
-  const labels = {
+  const ruLabels = {
     pm: 'Ответов по репорту',
     z: 'Закрытых запросов',
     jail: 'Деморганов',
@@ -59,7 +60,15 @@ function getLabel (key) {
     warn: 'Варнов',
     ban: 'Блокировок',
   }
-    return labels[key]   
+  const enLabels = {
+    pm: 'Report answers',
+    z: 'Closed requests',
+    jail: 'Jails',
+    mute: 'Mutes',
+    warn: 'Warns',
+    ban: 'Bans',
+  }
+    return locale.value === 'ru' ? ruLabels[key] : enLabels[key]  
 }
 function isRateAllowedToDisplay(key) {
     return serverLimits.value && serverLimits.value[key]

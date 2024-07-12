@@ -3,8 +3,8 @@
         <div v-if="isInfoAvailable" >
             <AppServerNumber class="py-2 md:pt-4"/>
             <div>
-                <h2 class="font-bold text-2xl py-2 md:py-4">Администратор {{ nicknameWithoutUnderscore }}</h2>
-                <p class="text-lg">Уровень: {{ adminInfo.adminLvl }}</p>
+                <h2 class="font-bold text-2xl py-2 md:py-4">{{ $t('monitoring__adm-title') }} {{ nicknameWithoutUnderscore }}</h2>
+                <p class="text-lg">{{ $t('monitoring__adm-lvl') }}: {{ adminInfo.adminLvl }}</p>
                 <div class="md:flex">
                     <StatisticsDayRate 
                         :rateInfo="todayRateInfo" 

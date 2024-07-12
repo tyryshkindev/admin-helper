@@ -1,6 +1,6 @@
 <template>
     <div class="flex justify-end start">
-        <label for="rating-selector" class="p-1">Сортировать по:</label>
+        <label for="rating-selector" class="p-1">{{ $t('charts__sort-title') }}:</label>
         <select id="rating-selector" v-model="rateName" name="rating" class="text-black rounded-md" @change="emitUpdate">
             <template v-for="(rateValue, rateKey) in rateOptions" :key="rateKey.id">
                 <option :value="rateKey">{{ rateValue }}</option>
@@ -10,6 +10,7 @@
 </template>
 
 <script setup>
+const {locale} = useI18n()
 const props = defineProps({
     ratingSelector: {
         type: String,
@@ -23,7 +24,7 @@ const emit = defineEmits({
 })
 const rateName = ref('full')
 const rateOptions = computed(() => {
-    return {
+    const ruOptions = {
         full: 'Общему рейтингу',
         pm: 'Ответам',
         jail: 'Деморганам',
@@ -31,6 +32,15 @@ const rateOptions = computed(() => {
         ban: 'Блокировкам',
         warn: 'Предупреждениям'
     }
+    const enOptions = {
+        full: 'Full rate',
+        pm: 'Answers',
+        jail: 'Jails',
+        z: 'Requests',
+        ban: 'Bans',
+        warn: 'Warns'
+    }
+    return locale.value === 'ru' ? ruOptions : enOptions
 })
 
 const emitUpdate = () => {

@@ -4,13 +4,13 @@
             <div class="text-white flex flex-col justify-between bg-slate-700 overflow-x-auto px-4 py-6 rounded-lg">
                 <header class="p-4 flex">
                     <slot name="header">
-                        Заголовок
+                        {{ $t('modal__header') }}
                     </slot>
                 </header>
 
                 <section class="relative py-5 px-2.5 border-t border-solid">
                     <slot name="body">
-                        Сообщение
+                        {{ $t('modal__body') }}
                     </slot>
                 </section>
 

@@ -16,8 +16,54 @@
     "managment__save__changes-btn": "Сохранить изменения",
     "managment__update-success": "Информация о сервере успешно обновлена!",
     "managment__getting__info-failed": "Ошибка при получении данных о сервере",
-    "managment__modal__fetch-err": "Невозможно получить / обновить данные о сервере. Возникла внутренняя ошибка"
-    
+    "managment__modal__fetch-err": "Невозможно получить / обновить данные о сервере. Возникла внутренняя ошибка",
+
+    "monitoring__search-form__title": "Введите ник-нейм чтобы найти",
+    "monitoring__search-form__submit-btn": "Поиск",
+    "monitoring__search-wrong__msg-part1": "Запрашиваемый",
+    "monitoring__search-wrong__msg-part2": "не зарегистрирован на сервере",
+    "monitoring__search-redirect__msg-part1": "Вы будете автоматически перенаправлены на страницу поиска через",
+    "monitoring__search-redirect__msg-part2": "секунд",
+    "monitoring__search-wrong__return-btn": "Вернуться на страницу поиска",
+    "monitoring__last__viewed-title": "Последние просмотренные",
+    "monitoring__adm-title": "Администратор",
+    "monitoring__adm-lvl": "Уровень",
+
+    "statistics__day-title": "Статистика за сегодня",
+    "statistics__day-time": "Отыграно времени",
+    "statistics__logout-btn": "Выйти из аккаунта",
+    "statistics__month-title": "Статистика за месяц",
+
+    "modal__header": "Заголовок",
+    "modal__body": "Сообщение",
+    "modal__close-btn": "Закрыть",
+    "modal__server__error-header": "Ошибка при получении данных с сервера",
+    "modal__server__error-body": "Возникла внутренняя ошибка сервера, получение данных невозможно",
+    "modal__auth-title": "Ошибка при авторизации",
+    "modal__auth-body": "Невозможно авторизоваться, возникла ошибка сервера",
+
+
+    "player__punishment__panel-modal-title": "Невозможно наказать игрока",
+    "player__punishment__panel-modal-body": "Возникла внутренняя ошибка сервера при выдаче наказания",
+    "player__punishment__panel-title": "Панель управления",
+    "player__punishment__panel-btn": "Выдать наказание",
+    "player_title": "Аккаунт",
+    "player_banned": "ЗАБЛОКИРОВАН",
+    "player_lvl": "Игровой уровень",
+    "player_fraction": "Организация",
+    "player_rank": "Ранг",
+    "player__alist-title": "Последние наказания игрока",
+    "player__alist-punishment": "Наказание",
+    "player__alist-time": "Время наказания",
+    "player__alist-admin": "Администратор",
+    "player__alist-reason": "Причина",
+    "player__alist-duration": "Длительность наказания",
+    "player__alist-empty": "Список наказаний игрока пуст",
+
+    "charts__sort-title": "Сортировать по"
+
+
+  
 
 
 }

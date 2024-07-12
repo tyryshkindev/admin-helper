@@ -16,7 +16,51 @@
     "managment__save__changes-btn": "Save changes",
     "managment__update-success": "Server info updated successfully!",
     "managment__getting__info-failed": "An error occured while getting server info",
-    "managment__modal__fetch-err": "Unable to get / update server info. Internal server error occured."
+    "managment__modal__fetch-err": "Unable to get / update server info. Internal server error occured.",
+
+    "monitoring__search-form__title": "Enter nickname to find",
+    "monitoring__search-form__submit-btn": "Search",
+    "monitoring__search-wrong__msg-part1": "Requested",
+    "monitoring__search-wrong__msg-part2": "is not registered on the server",
+    "monitoring__search-redirect__msg-part1": "You will be redirected back in",
+    "monitoring__search-redirect__msg-part2": "seconds",
+    "monitoring__search-wrong__return-btn": "Return to search page",
+    "monitoring__last__viewed-title": "Last viewed",
+    "monitoring__adm-title": "Administrator",
+    "monitoring__adm-lvl": "Admin level",
+
+    "statistics__day-title": "Today statistics",
+    "statistics__day-time": "Played time",
+    "statistics__logout-btn": "Logout",
+    "statistics__month-title": "Month ratings",
+
+    "modal__header": "Header",
+    "modal__body": "Body",
+    "modal__close-btn": "Close",
+    "modal__server__error-header": "Getting info from server failed",
+    "modal__server__error-body": "An internal server error occured. Impossible to get data",
+    "modal__auth-title": "Error on authorization",
+    "modal__auth-body": "Unable to authorize, an internal server error occured. Try again later",
+
+    "player__punishment__panel-modal-title": "Unable to punish player",
+    "player__punishment__panel-modal-body": "An internal server error occured while punishing player",
+    "player__punishment__panel-title": "Punishment panel",
+    "player__punishment__panel-btn": "Punish player",
+    "player_title": "Account",
+    "player_banned": "BANNED",
+    "player_lvl": "Level",
+    "player_fraction": "Fraction",
+    "player_rank": "Rank",
+    "player__alist-title": "Last player's punishments",
+    "player__alist-punishment": "Punishment",
+    "player__alist-time": "Punishment time",
+    "player__alist-admin": "Administrator",
+    "player__alist-reason": "Reason",
+    "player__alist-duration": "Punishment duration",
+    "player__alist-empty": "Players alist is empty",
+
+    "charts__sort-title": "Sort by"
+
 
     
 }

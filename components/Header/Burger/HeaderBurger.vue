@@ -12,6 +12,9 @@
                     <span class="w-full h-[2px] bg-white absolute top-1/2 -rotate-45 -translate-y-1/2"/>
                 </div>
                 <HeaderBurgerLinks :links="links" @clickLink="closeMenu" />
+                <div class="flex flex-col items-center mt-8">
+                    <LanguageBurgerSwitcher />
+                </div>
             </div>
         </transition>
     </div>

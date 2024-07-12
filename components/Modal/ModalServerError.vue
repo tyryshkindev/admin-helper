@@ -2,10 +2,10 @@
     <div>
         <ModalWindow :isOpened="isModalOpened" @closeModal="closeModal">
             <template #header>
-                <p class="text-lg font-bold">Ошибка при получении данных с сервера</p>
+                <p class="text-lg font-bold">{{ $t('modal__server__error-header') }}</p>
             </template>
             <template #body>
-                <p>Возникла внутренняя ошибка сервера, получение данных невозможно.</p>
+                <p>{{ $t('modal__server__error-body') }}</p>
             </template>
         </ModalWindow>
     </div>

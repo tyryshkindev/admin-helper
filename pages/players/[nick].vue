@@ -4,14 +4,14 @@
         <div v-if="isPlayerInfoAvailable">
             <AppServerNumber />
             <div class="md:py-4 md:flex">
-                <h2 class="font-bold text-2xl">Аккаунт: {{ playerInfo.nickname }}</h2>
+                <h2 class="font-bold text-2xl">{{ $t('player_title') }}: {{ playerInfo.nickname }}</h2>
                 <p v-if="playerInfo.isPlayerBanned" class="font-bold text-xl text-red-500 md:pl-2 md:pt-1">
-                    ЗАБЛОКИРОВАН
+                    {{ $t('player_banned') }}
                 </p>
             </div>
-            <p>Игровой уровень: {{ playerInfo.lvl }}</p>
-            <p>Организация: {{ playerInfo.fraction || 'Отсутствует' }}</p>
-            <p>Ранг: {{ playerInfo.rank || 'Отсутствует' }}</p>
+            <p>{{ $t('player_lvl') }}: {{ playerInfo.lvl }}</p>
+            <p>{{ $t('player_fraction') }}: {{ playerInfo.fraction || 'Отсутствует' }}</p>
+            <p>{{ $t('player_rank') }}: {{ playerInfo.rank || 'Отсутствует' }}</p>
             <PlayerAlist :alist="playerInfo.alist || null" />
             <PlayerPunishmentPanel 
                 v-if="!playerInfo.isPlayerBanned" 

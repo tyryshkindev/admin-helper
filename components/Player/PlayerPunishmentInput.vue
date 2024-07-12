@@ -1,8 +1,8 @@
 <template>
     <div class="text-black">
         <UIInputField 
-            :placeholder="'Введите причину наказания'" 
-            :inputValue="punishmentReason.value || ''"
+            :placeholder="reasonPlaceholder" 
+            :inputValue="punishmentReason || ''"
             class="md:max-w-[30%]"
             @update:inputValue="setPunishmentReason"
             @keydown.enter="handleReasonEnter"
@@ -12,7 +12,7 @@
             v-if="punishmentReason.length >= 3 && punishmentType !== 'warn'"
             id="duration__input"
             :inputValue="punishmentDuration"
-            :placeholder="'Введите длительность наказания'"
+            :placeholder="durationPlaceholder"
             class="!max-w-96 !bg-white p-2"
             @inputChange="setPunishmentDuration"
             @keydown.enter="handleDurationEnter"
@@ -21,6 +21,7 @@
 </template>
 
 <script setup>
+const {locale} = useI18n()
 const props = defineProps({
     punishmentType: {
         type: String,
@@ -44,6 +45,14 @@ const emit = defineEmits({
 })
 const punishmentReason = ref('')
 const punishmentDuration = ref(0)
+
+const reasonPlaceholder = computed(() => {
+    return locale.value === 'ru' ? 'Введите причину наказания' : 'Enter punishment reason'
+})
+
+const durationPlaceholder = computed(() => {
+    return locale.value === 'ru' ? 'Введите длительность наказания' : 'Enter punishment duration'
+})
 
 watch(parentReason, newValue => {
     punishmentReason.value = newValue

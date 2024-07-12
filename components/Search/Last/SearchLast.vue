@@ -1,6 +1,6 @@
 <template>
     <div>
-        <h2 class="font-bold text-lg">Последние просмотренные:</h2>
+        <h2 class="font-bold text-lg">{{ $t('monitoring__last__viewed-title') }}:</h2>
         <div v-for="targetNickname in lastSearched" :key="targetNickname.id">
             <SearchLastItem :targetNickname = "targetNickname" :requesterRole="role" class="pt-4" />
         </div>
