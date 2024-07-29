@@ -1,6 +1,6 @@
 <template>
     <div class="text-white" @mouseover="toggleSwitcher(true)" @mouseleave="toggleSwitcher(false)">
-        <button type="button" class="relative">
+        <button id="language-switcher" type="button" class="relative">
             <Icon name="i-heroicons-language" class="h-6 w-6" />
         </button>
         <Transition name="switcher">

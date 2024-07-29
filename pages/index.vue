@@ -5,7 +5,7 @@
             <div>
                 <ul class="pt-10">
                     <li>
-                        <h3 class="font-bold text-xl p-4">{{ $t('home__instructions-title') }}</h3>
+                        <h2 class="font-bold text-xl p-4">{{ $t('home__instructions-title') }}</h2>
                         <ul class="text-lg">
                             <li>
                                 {{ $t('home__instructions-content-step1') }}

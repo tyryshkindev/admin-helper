@@ -8,7 +8,10 @@ export default defineNuxtConfig({
   ],
   app: {
     head: {
-      title: 'Помощник администрации HASSLE ONLINE'
+      title: 'Помощник администрации HASSLE ONLINE',
+      htmlAttrs: {
+        lang: 'ru'
+      }
     }
   },
   colorMode: {
