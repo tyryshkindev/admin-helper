@@ -65,7 +65,7 @@ function resetInputFields() {
 }
 async function handleAuthorize() {
     isAuthorizationInProgress.value = true
-    const newUserInfo = await authenticateUser({nickname: nickName.value, password: password.value})
+    const newUserInfo = await authorizeUser({nickname: nickName.value, password: password.value})
     if (typeof newUserInfo === 'object') {
         resetInputFields()
         emit('authorization', newUserInfo)
