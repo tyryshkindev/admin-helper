@@ -18,8 +18,8 @@ const remainingTime = ref(10)
 
 const formattedRole = computed(() => {
     const ruRoles = {
-        'player': 'игрока',
-        'admin': 'админа'
+        'player': 'игрок',
+        'admin': 'админ'
     }
     const enRoles = {
         'player': 'player',
